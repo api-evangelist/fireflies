@@ -1,0 +1,95 @@
+name: Fireflies.ai Plans & Pricing
+description: Pricing tiers for Fireflies.ai AI meeting assistant with API access details
+version: '0.1'
+url: https://fireflies.ai/pricing
+plans:
+  - name: Free
+    description: Free forever plan with basic meeting transcription and AI summaries
+    price:
+      monthly: 0
+      annual: 0
+      currency: USD
+      per: user/month
+    features:
+      - Unlimited transcription and AI summaries
+      - 400 minutes storage per team
+      - Real-time notes and live transcriptions
+      - Meeting search
+      - AskFred AI assistant
+      - Mobile and desktop apps
+      - 100+ language support
+    api:
+      access: false
+      rateLimits: 50 requests/day
+      notes: API key available but limited to 50 requests per day
+  - name: Pro
+    description: Professional plan for individuals with expanded storage and download capabilities
+    price:
+      monthly: 18
+      annual: 10
+      currency: USD
+      per: user/month
+    features:
+      - Everything in Free
+      - 8,000 minutes storage per seat
+      - Download transcripts, summaries, and recordings
+      - Personal Assistant
+      - Talk-time analytics
+      - 20 AI credits
+      - Action items and task manager
+      - Unlimited basic integrations
+    api:
+      access: true
+      rateLimits: 500 requests/day
+      notes: API access included; 500 requests per day
+  - name: Business
+    description: Business plan for teams with unlimited storage, conversation intelligence, and CRM integrations
+    price:
+      monthly: 29
+      annual: 19
+      currency: USD
+      per: user/month
+    features:
+      - Everything in Pro
+      - Unlimited storage
+      - Video recording
+      - Multi-language mode
+      - Conversation intelligence
+      - Team analytics
+      - Sentiment analysis
+      - Speaker talk ratios
+      - Salesforce and HubSpot integrations
+      - 30 AI credits
+    api:
+      access: true
+      rateLimits: 60 requests/minute
+      notes: Full API access at 60 requests per minute
+  - name: Enterprise
+    description: Enterprise plan with HIPAA compliance, SSO, private storage, and dedicated support
+    price:
+      monthly: 39
+      annual: 39
+      currency: USD
+      per: user/month
+    features:
+      - Everything in Business
+      - Unlimited storage and transcription
+      - SSO + SCIM provisioning
+      - Audit logs API
+      - HIPAA compliance
+      - Private storage
+      - Custom data retention policies
+      - Super Admin webhooks for team-wide event monitoring
+      - 50 AI credits
+      - Dedicated account manager
+      - Priority support
+    api:
+      access: true
+      rateLimits: 60 requests/minute
+      notes: Full API access with enterprise audit logs API and Super Admin webhooks
+overages:
+  transcriptionMinutes:
+    rate: 0.01
+    unit: per extra minute
+    currency: USD
+    notes: Charged when monthly processing quota is exceeded; billed in the next cycle

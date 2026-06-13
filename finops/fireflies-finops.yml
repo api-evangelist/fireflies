@@ -1,0 +1,107 @@
+name: Fireflies.ai FinOps Framework
+description: FinOps Framework 1.0 FOCUS-aligned cost management guide for Fireflies.ai API consumption
+version: '1.0'
+provider: Fireflies.ai
+url: https://fireflies.ai/pricing
+currency: USD
+billingModels:
+  - type: SeatBased
+    description: Per-user/per-month subscription pricing for all plan tiers
+    billingCycles:
+      - monthly
+      - annual
+    annualDiscount: up to 44%
+  - type: Consumption
+    description: Overage charges for transcription minutes exceeding monthly quota
+    unit: minute
+    rate: 0.01
+    currency: USD
+costCategories:
+  - category: Subscription
+    description: Fixed monthly or annual seat-based license cost
+    plans:
+      - name: Free
+        monthlyCostPerSeat: 0
+        annualCostPerSeat: 0
+      - name: Pro
+        monthlyCostPerSeat: 18
+        annualCostPerSeat: 120
+      - name: Business
+        monthlyCostPerSeat: 29
+        annualCostPerSeat: 228
+      - name: Enterprise
+        monthlyCostPerSeat: 39
+        annualCostPerSeat: 468
+  - category: Overage
+    description: Additional charges when monthly transcription minutes are exceeded
+    rate: 0.01
+    unit: per extra minute
+    billingCycle: monthly
+    notes: Billed in the following billing cycle
+costAllocation:
+  dimensions:
+    - name: Plan Tier
+      description: Cost bucket by subscription tier (Free, Pro, Business, Enterprise)
+    - name: Seat Count
+      description: Number of licensed users driving total subscription spend
+    - name: Transcription Minutes
+      description: Volume of audio/video processed; key consumption driver for overages
+    - name: API Requests
+      description: Volume of GraphQL API calls; relevant for tracking integration usage
+    - name: AI Credits
+      description: Credits consumed by AskFred AI and advanced AI features
+optimization:
+  recommendations:
+    - id: right-size-plan
+      title: Right-size plan to API request volume
+      description: Free and Pro plans are request-per-day limited; teams making frequent programmatic queries should evaluate Business tier for per-minute rate limits
+      impact: medium
+    - id: annual-billing
+      title: Commit to annual billing for predictable workloads
+      description: Annual plans save up to 44% vs monthly; appropriate for teams with stable seat counts
+      impact: high
+    - id: monitor-overage-minutes
+      title: Monitor transcription minute consumption to avoid overages
+      description: Track monthly minutes processed via the Analytics API; implement alerts when approaching 80% of the 3,000 min/user quota to prevent $0.01/min overages
+      impact: high
+    - id: exempt-live-meetings
+      title: Use live bot meetings to avoid upload quota consumption
+      description: Live meetings joined by the Fireflies bot are exempt from monthly minute caps; prefer bot-joined meetings over manual uploads where possible
+      impact: medium
+    - id: pool-team-minutes
+      title: Pool minutes across team seats
+      description: Team accounts pool minutes per source (3,000 min/user), so distributing upload load across team members maximizes effective quota
+      impact: low
+reporting:
+  metrics:
+    - name: Cost Per Meeting
+      formula: totalSubscriptionCost / meetingsTranscribed
+      unit: USD/meeting
+    - name: Cost Per Transcription Minute
+      formula: (subscriptionCost + overageCost) / totalMinutesTranscribed
+      unit: USD/minute
+    - name: API Request Utilization Rate
+      formula: (requestsUsed / requestLimit) * 100
+      unit: percent
+      notes: Track per plan to identify upgrade triggers
+    - name: Overage Exposure
+      formula: max(0, minutesProcessed - monthlyQuota) * 0.01
+      unit: USD
+      notes: Estimated overage cost for current billing period
+focus:
+  version: '1.0'
+  columns:
+    - ChargePeriodStart
+    - ChargePeriodEnd
+    - ChargeCategory
+    - ServiceName
+    - SkuId
+    - SkuPriceId
+    - BilledCost
+    - EffectiveCost
+    - ResourceId
+    - Tags
+  serviceMapping:
+    ServiceName: Fireflies.ai
+    ServiceCategory: AI Meeting Intelligence
+    Provider: Fireflies Inc.

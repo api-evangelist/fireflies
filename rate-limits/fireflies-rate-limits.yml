@@ -1,0 +1,68 @@
+name: Fireflies.ai Rate Limits
+description: API rate limits and file size constraints for the Fireflies.ai GraphQL API
+version: '0.1'
+url: https://docs.fireflies.ai/getting-started/rate-limits
+endpoint: https://api.fireflies.ai/graphql
+authentication:
+  type: Bearer Token
+  header: Authorization
+  notes: API key obtained from app.fireflies.ai/integrations/custom/fireflies
+rateLimits:
+  byPlan:
+    - plan: Free
+      limit: 50
+      window: day
+      unit: requests
+    - plan: Pro
+      limit: 500
+      window: day
+      unit: requests
+    - plan: Business
+      limit: 60
+      window: minute
+      unit: requests
+    - plan: Enterprise
+      limit: 60
+      window: minute
+      unit: requests
+  byOperation:
+    - operation: addToLiveMeeting mutation
+      limit: 3
+      window: 20 minutes
+      unit: requests
+      appliesTo: all plans
+    - operation: shareMeeting mutation
+      limit: 10
+      window: hour
+      unit: requests
+      appliesTo: all plans
+    - operation: deleteTranscript mutation
+      limit: 10
+      window: minute
+      unit: requests
+      appliesTo: all plans
+  mcpServer:
+    endpoint: https://api.fireflies.ai/mcp
+    notes: Shares the same rate limits as the GraphQL API; supports 17+ tools
+uploadLimits:
+  audio:
+    maxFileSizeMB: 200
+    appliesTo: all plans
+  video:
+    free:
+      maxFileSizeMB: 100
+    paid:
+      maxFileSizeMB: 1536
+      notes: 1.5 GB for Pro, Business, and Enterprise
+processingLimits:
+  monthlyMinutes:
+    individual: 3000
+    perUserTeam: 3000
+    teamMaximum: 150000
+    unit: minutes per source per month
+    notes: Pooled per source for team accounts (e.g., 5 users = 15,000 minutes)
+  exemptions:
+    - Live meetings with Fireflies bot participation
+    - Chrome Extension recordings
+    - Mobile App recordings
+  overageRate: 0.01 USD per extra minute
