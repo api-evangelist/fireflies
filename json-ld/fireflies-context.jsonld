@@ -1,0 +1,317 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "fireflies": "https://fireflies.ai/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Transcript": "fireflies:Transcript",
+    "Speaker": "fireflies:Speaker",
+    "Sentence": "fireflies:Sentence",
+    "Summary": "fireflies:Summary",
+    "Bite": "fireflies:Bite",
+    "BiteCaption": "fireflies:BiteCaption",
+    "BiteSource": "fireflies:BiteSource",
+    "MeetingInfo": "fireflies:MeetingInfo",
+    "AIFilter": "fireflies:AIFilter",
+    "AIAppOutput": "fireflies:AIAppOutput",
+    "AskFredThread": "fireflies:AskFredThread",
+    "AuditEvent": "fireflies:AuditEvent",
+    "Channel": "fireflies:Channel",
+
+    "id": "@id",
+    "type": "@type",
+
+    "title": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "schema:startDate",
+      "@type": "xsd:dateTime"
+    },
+    "duration": {
+      "@id": "schema:duration",
+      "@type": "xsd:decimal"
+    },
+    "host_email": {
+      "@id": "fireflies:hostEmail",
+      "@type": "xsd:string"
+    },
+    "organizer_email": {
+      "@id": "schema:organizer",
+      "@type": "xsd:string"
+    },
+    "participants": {
+      "@id": "schema:attendee",
+      "@container": "@set"
+    },
+    "transcript_url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "audio_url": {
+      "@id": "schema:contentUrl",
+      "@type": "@id"
+    },
+    "video_url": {
+      "@id": "schema:embedUrl",
+      "@type": "@id"
+    },
+    "meeting_link": {
+      "@id": "fireflies:meetingLink",
+      "@type": "@id"
+    },
+    "privacy": {
+      "@id": "fireflies:privacy",
+      "@type": "xsd:string"
+    },
+    "speakers": {
+      "@id": "fireflies:hasSpeaker",
+      "@type": "Speaker",
+      "@container": "@set"
+    },
+    "sentences": {
+      "@id": "fireflies:hasSentence",
+      "@type": "Sentence",
+      "@container": "@list"
+    },
+    "summary": {
+      "@id": "fireflies:hasSummary",
+      "@type": "Summary"
+    },
+    "meeting_attendees": {
+      "@id": "schema:attendee",
+      "@container": "@set"
+    },
+
+    "speaker_name": {
+      "@id": "fireflies:speakerName",
+      "@type": "xsd:string"
+    },
+    "speaker_id": {
+      "@id": "fireflies:speakerId",
+      "@type": "xsd:string"
+    },
+    "text": {
+      "@id": "schema:text",
+      "@type": "xsd:string"
+    },
+    "raw_text": {
+      "@id": "fireflies:rawText",
+      "@type": "xsd:string"
+    },
+    "start_time": {
+      "@id": "fireflies:startTime",
+      "@type": "xsd:decimal"
+    },
+    "end_time": {
+      "@id": "fireflies:endTime",
+      "@type": "xsd:decimal"
+    },
+    "index": {
+      "@id": "schema:position",
+      "@type": "xsd:integer"
+    },
+    "ai_filters": {
+      "@id": "fireflies:hasAIFilter",
+      "@type": "AIFilter"
+    },
+
+    "keywords": {
+      "@id": "schema:keywords",
+      "@container": "@set"
+    },
+    "action_items": {
+      "@id": "fireflies:actionItem",
+      "@container": "@set"
+    },
+    "overview": {
+      "@id": "fireflies:overview",
+      "@type": "xsd:string"
+    },
+    "gist": {
+      "@id": "fireflies:gist",
+      "@type": "xsd:string"
+    },
+    "short_summary": {
+      "@id": "fireflies:shortSummary",
+      "@type": "xsd:string"
+    },
+    "bullet_gist": {
+      "@id": "fireflies:bulletGist",
+      "@type": "xsd:string"
+    },
+    "shorthand_bullet": {
+      "@id": "fireflies:shorthandBullet",
+      "@type": "xsd:string"
+    },
+    "outline": {
+      "@id": "fireflies:outline",
+      "@container": "@list"
+    },
+    "meeting_type": {
+      "@id": "fireflies:meetingType",
+      "@type": "xsd:string"
+    },
+    "topics_discussed": {
+      "@id": "fireflies:topicDiscussed",
+      "@container": "@set"
+    },
+    "transcript_chapters": {
+      "@id": "fireflies:transcriptChapter",
+      "@container": "@list"
+    },
+
+    "task": {
+      "@id": "fireflies:detectedTask",
+      "@type": "xsd:string"
+    },
+    "pricing": {
+      "@id": "fireflies:detectedPricing",
+      "@type": "xsd:string"
+    },
+    "metric": {
+      "@id": "fireflies:detectedMetric",
+      "@type": "xsd:string"
+    },
+    "question": {
+      "@id": "fireflies:detectedQuestion",
+      "@type": "xsd:string"
+    },
+    "date_and_time": {
+      "@id": "fireflies:detectedDateAndTime",
+      "@type": "xsd:string"
+    },
+    "text_cleanup": {
+      "@id": "fireflies:textCleanup",
+      "@type": "xsd:string"
+    },
+    "sentiment": {
+      "@id": "fireflies:sentiment",
+      "@type": "xsd:string"
+    },
+
+    "transcript_id": {
+      "@id": "fireflies:transcriptId",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "thumbnail": {
+      "@id": "schema:thumbnailUrl",
+      "@type": "@id"
+    },
+    "preview": {
+      "@id": "fireflies:previewUrl",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "schema:actionStatus",
+      "@type": "xsd:string"
+    },
+    "media_type": {
+      "@id": "schema:encodingFormat",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "privacies": {
+      "@id": "fireflies:privacySetting",
+      "@container": "@set"
+    },
+    "captions": {
+      "@id": "fireflies:hasCaption",
+      "@type": "BiteCaption",
+      "@container": "@list"
+    },
+    "sources": {
+      "@id": "fireflies:hasSource",
+      "@type": "BiteSource",
+      "@container": "@set"
+    },
+
+    "user_id": {
+      "@id": "fireflies:userId",
+      "@type": "xsd:string"
+    },
+    "email": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "num_transcripts": {
+      "@id": "fireflies:numTranscripts",
+      "@type": "xsd:integer"
+    },
+    "minutes_consumed": {
+      "@id": "fireflies:minutesConsumed",
+      "@type": "xsd:decimal"
+    },
+    "is_admin": {
+      "@id": "fireflies:isAdmin",
+      "@type": "xsd:boolean"
+    },
+    "integrations": {
+      "@id": "fireflies:integration",
+      "@container": "@set"
+    },
+    "recent_transcript": {
+      "@id": "fireflies:recentTranscript",
+      "@type": "xsd:string"
+    },
+    "recent_meeting": {
+      "@id": "fireflies:recentMeeting",
+      "@type": "xsd:string"
+    },
+
+    "app_id": {
+      "@id": "fireflies:appId",
+      "@type": "xsd:string"
+    },
+    "prompt": {
+      "@id": "fireflies:prompt",
+      "@type": "xsd:string"
+    },
+    "response": {
+      "@id": "fireflies:response",
+      "@type": "xsd:string"
+    },
+
+    "success": {
+      "@id": "fireflies:success",
+      "@type": "xsd:boolean"
+    },
+    "message": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "displayName": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "phoneNumber": {
+      "@id": "schema:telephone",
+      "@type": "xsd:string"
+    },
+    "fred_joined": {
+      "@id": "fireflies:fredJoined",
+      "@type": "xsd:boolean"
+    },
+    "silent_meeting": {
+      "@id": "fireflies:silentMeeting",
+      "@type": "xsd:boolean"
+    },
+    "summary_status": {
+      "@id": "fireflies:summaryStatus",
+      "@type": "xsd:string"
+    }
+  }
+}

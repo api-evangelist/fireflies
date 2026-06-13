@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/fireflies/main/json-schema/fireflies-transcript.json",
+  "title": "FirefliesTranscript",
+  "description": "A Fireflies.ai meeting transcript record returned by the GraphQL API",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique transcript identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Meeting title"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Meeting date/time in ISO 8601 format"
+    },
+    "dateString": {
+      "type": "string",
+      "description": "Human-readable meeting date string"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Meeting duration in seconds"
+    },
+    "privacy": {
+      "type": "string",
+      "description": "Privacy setting for the transcript"
+    },
+    "host_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the meeting host"
+    },
+    "organizer_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the meeting organizer"
+    },
+    "participants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of participant email addresses"
+    },
+    "transcript_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to view the transcript on Fireflies"
+    },
+    "audio_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the audio recording"
+    },
+    "video_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL to the video recording"
+    },
+    "meeting_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Original meeting URL (Zoom, Meet, Teams, etc.)"
+    },
+    "speakers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        },
+        "required": ["id", "name"]
+      },
+      "description": "List of speakers identified in the transcript"
+    },
+    "sentences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "index": { "type": "integer" },
+          "speaker_name": { "type": "string" },
+          "speaker_id": { "type": "string" },
+          "text": { "type": "string" },
+          "raw_text": { "type": "string" },
+          "start_time": { "type": "number" },
+          "end_time": { "type": "number" },
+          "ai_filters": {
+            "type": "object",
+            "properties": {
+              "task": { "type": "string" },
+              "pricing": { "type": "string" },
+              "metric": { "type": "string" },
+              "question": { "type": "string" },
+              "date_and_time": { "type": "string" },
+              "text_cleanup": { "type": "string" },
+              "sentiment": { "type": "string" }
+            }
+          }
+        },
+        "required": ["index", "text", "start_time", "end_time"]
+      },
+      "description": "Individual utterances in the transcript"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "action_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "outline": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "shorthand_bullet": { "type": "string" },
+        "overview": { "type": "string" },
+        "bullet_gist": { "type": "string" },
+        "gist": { "type": "string" },
+        "short_summary": { "type": "string" },
+        "short_overview": { "type": "string" },
+        "meeting_type": { "type": "string" },
+        "topics_discussed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "transcript_chapters": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "description": "AI-generated meeting summary"
+    },
+    "meeting_attendees": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "displayName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phoneNumber": { "type": "string" },
+          "name": { "type": "string" },
+          "location": { "type": "string" }
+        }
+      },
+      "description": "Calendar attendees for the meeting"
+    }
+  },
+  "required": ["id", "title"]
+}

@@ -46,6 +46,14 @@ apis:
         url: https://docs.fireflies.ai/realtime-api
       - type: MCPServer
         url: https://api.fireflies.ai/mcp
+      - type: OpenAPI
+        url: openapi/fireflies-graphql-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/fireflies-transcript.json
+      - type: Examples
+        url: examples/fireflies-get-transcript-example.json
+      - type: Examples
+        url: examples/fireflies-upload-audio-example.json
     contact:
       - FN: Fireflies.ai Support
         url: https://guide.fireflies.ai/
@@ -72,6 +80,12 @@ common:
     url: rate-limits/fireflies-rate-limits.yml
   - type: FinOps
     url: finops/fireflies-finops.yml
+  - type: Vocabulary
+    url: vocabulary/fireflies-vocabulary.yml
+  - type: JSONLDContext
+    url: json-ld/fireflies-context.jsonld
+  - type: Blog
+    url: blogs/blogs.json
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

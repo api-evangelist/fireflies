@@ -1,0 +1,88 @@
+{
+  "summary": "Retrieve a single meeting transcript by ID",
+  "description": "Example GraphQL request and response for fetching a Fireflies transcript with summary, speakers, and sentences.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.fireflies.ai/graphql",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_API_KEY"
+    },
+    "body": {
+      "query": "query Transcript($id: String!) { transcript(id: $id) { id title date duration host_email organizer_email participants transcript_url audio_url video_url summary { overview action_items keywords gist meeting_type topics_discussed } speakers { id name } sentences { index speaker_name text start_time end_time } } }",
+      "variables": {
+        "id": "abc123transcript"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "transcript": {
+          "id": "abc123transcript",
+          "title": "Q3 Product Planning Meeting",
+          "date": "2026-06-10T14:00:00.000Z",
+          "duration": 3600,
+          "host_email": "alice@example.com",
+          "organizer_email": "alice@example.com",
+          "participants": [
+            "alice@example.com",
+            "bob@example.com",
+            "carol@example.com"
+          ],
+          "transcript_url": "https://app.fireflies.ai/view/Q3-Planning--abc123transcript",
+          "audio_url": "https://storage.fireflies.ai/recordings/abc123transcript.mp3",
+          "video_url": null,
+          "summary": {
+            "overview": "The team reviewed Q3 product priorities, discussed the new feature roadmap, and assigned action items for the upcoming sprint.",
+            "action_items": [
+              "Alice to finalize the API integration spec by June 17",
+              "Bob to schedule user interviews for the dashboard redesign",
+              "Carol to update the pricing page copy"
+            ],
+            "keywords": [
+              "Q3 roadmap",
+              "API integration",
+              "dashboard",
+              "pricing",
+              "user interviews"
+            ],
+            "gist": "Q3 planning focused on API integrations and dashboard redesign with clear owner assignments.",
+            "meeting_type": "planning",
+            "topics_discussed": [
+              "Q3 feature priorities",
+              "API integration timeline",
+              "Dashboard redesign",
+              "Pricing page updates"
+            ]
+          },
+          "speakers": [
+            { "id": "spk_001", "name": "Alice Johnson" },
+            { "id": "spk_002", "name": "Bob Smith" },
+            { "id": "spk_003", "name": "Carol Lee" }
+          ],
+          "sentences": [
+            {
+              "index": 0,
+              "speaker_name": "Alice Johnson",
+              "text": "Thanks everyone for joining. Let's start with the Q3 roadmap.",
+              "start_time": 5.2,
+              "end_time": 10.8
+            },
+            {
+              "index": 1,
+              "speaker_name": "Bob Smith",
+              "text": "Should we prioritize the API integration or the dashboard first?",
+              "start_time": 11.5,
+              "end_time": 16.3
+            }
+          ]
+        }
+      }
+    }
+  }
+}

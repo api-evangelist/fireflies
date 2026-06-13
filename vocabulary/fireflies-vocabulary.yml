@@ -1,0 +1,200 @@
+vocabulary:
+  provider: Fireflies.ai
+  description: Domain vocabulary for the Fireflies.ai GraphQL API covering AI meeting assistance, transcription, and conversation intelligence.
+  url: https://docs.fireflies.ai
+  terms:
+    - term: Transcript
+      definition: >
+        A complete record of a meeting session captured by Fireflies, including the full
+        text of all spoken words, speaker labels, timestamps, AI-generated summary,
+        action items, and associated metadata such as attendees and recording URLs.
+      related:
+        - Sentence
+        - Speaker
+        - Summary
+        - MeetingInfo
+
+    - term: Sentence
+      definition: >
+        A single utterance within a transcript, attributed to a specific speaker,
+        with start and end timestamps and AI-generated filter labels (tasks, questions,
+        sentiment, pricing signals, dates, etc.).
+      related:
+        - Transcript
+        - AIFilter
+        - Speaker
+
+    - term: Speaker
+      definition: >
+        An individual voice identified within a meeting recording. Fireflies uses
+        speaker diarization to assign each utterance to a named speaker by matching
+        voice patterns to attendee names and email addresses.
+      related:
+        - Sentence
+        - Transcript
+
+    - term: Summary
+      definition: >
+        An AI-generated structured summary of a meeting transcript. Contains an
+        overview, gist, short summary, bullet points, keywords, action items,
+        topics discussed, meeting type, outline, and chapter breakdowns.
+      related:
+        - Transcript
+        - ActionItem
+        - Keyword
+
+    - term: ActionItem
+      definition: >
+        A task or follow-up extracted by Fireflies AI from the meeting transcript.
+        Action items are listed within the Summary object and identify commitments
+        made by meeting participants.
+      related:
+        - Summary
+
+    - term: AIFilter
+      definition: >
+        A set of AI-generated labels applied to each Sentence in a transcript. Filters
+        include detected tasks, pricing signals, metrics, questions, date/time references,
+        cleaned text, and sentiment scores.
+      related:
+        - Sentence
+
+    - term: Bite
+      definition: >
+        A short clip (video or audio) extracted from a meeting recording. Bites can
+        be created programmatically by specifying a start and end time within a
+        transcript and can be shared with configurable privacy settings (public, team,
+        participants).
+      related:
+        - Transcript
+        - BiteCaption
+
+    - term: BiteCaption
+      definition: >
+        A caption entry associated with a Bite, containing the speaker, text, and
+        timing information for a specific moment within the bite clip.
+      related:
+        - Bite
+
+    - term: Fred
+      definition: >
+        The name of the Fireflies AI meeting bot. Fred joins video calls (Zoom, Google
+        Meet, Microsoft Teams, etc.) to record, transcribe, and summarize the meeting.
+        "fred_joined" indicates whether the bot was present in a given meeting.
+      related:
+        - MeetingInfo
+        - Transcript
+
+    - term: AskFred
+      definition: >
+        Fireflies' AI-powered natural language query interface. AskFred allows users
+        and developers to ask questions about meeting content in plain English and
+        receive answers derived from the transcript corpus. Accessible via GraphQL
+        mutations and queries for threads and messages.
+      related:
+        - AskFredThread
+        - AskFredMessage
+
+    - term: AskFredThread
+      definition: >
+        A conversation thread in the AskFred AI interface. Each thread contains
+        a series of user messages and AI responses about meeting content.
+      related:
+        - AskFred
+        - AskFredMessage
+
+    - term: AskFredMessage
+      definition: >
+        An individual message within an AskFred conversation thread, either a user
+        query or an AI-generated response.
+      related:
+        - AskFredThread
+
+    - term: MeetingInfo
+      definition: >
+        Metadata about the Fireflies session for a given meeting, including whether
+        the Fred bot joined, whether the meeting was silent, and the status of
+        AI summary generation.
+      related:
+        - Transcript
+        - Fred
+
+    - term: LiveMeeting
+      definition: >
+        An active, in-progress video or audio call to which the Fireflies bot can be
+        added via the addToLiveMeeting mutation. Supports Zoom, Google Meet, Microsoft
+        Teams, and other video conferencing platforms.
+      related:
+        - Fred
+
+    - term: AudioUpload
+      definition: >
+        The process of submitting a pre-recorded audio or video file URL to Fireflies
+        for asynchronous transcription. The file must be hosted at a publicly accessible
+        HTTPS URL. A webhook can be configured to receive notification upon completion.
+      related:
+        - Transcript
+        - Webhook
+
+    - term: Webhook
+      definition: >
+        An HTTP callback that Fireflies sends to a developer-configured URL when
+        specific events occur, such as when a meeting transcript is ready. Fireflies
+        supports both standard webhooks and an enhanced Webhooks V2 with richer
+        event payloads.
+      related:
+        - AudioUpload
+        - Transcript
+
+    - term: Channel
+      definition: >
+        A Fireflies organizational grouping for meetings and transcripts, allowing
+        teams to organize meeting recordings into collections or projects.
+      related:
+        - Transcript
+
+    - term: AuditEvent
+      definition: >
+        An OCSF-compliant audit log entry recording user and system actions within
+        a Fireflies workspace. Available to enterprise teams for compliance and
+        security monitoring via the auditEvents GraphQL query.
+
+    - term: MCPServer
+      definition: >
+        The Fireflies Model Context Protocol (MCP) server endpoint at
+        https://api.fireflies.ai/mcp. Enables AI tools and agents to connect
+        directly to Fireflies meeting data using the MCP standard.
+      related:
+        - AskFred
+
+    - term: RealtimeAPI
+      definition: >
+        The Fireflies Live Transcription API that provides real-time event-driven
+        access to meeting transcription as it occurs, enabling applications to
+        process speech-to-text output mid-meeting without waiting for the recording
+        to end.
+      related:
+        - LiveMeeting
+
+    - term: APIKey
+      definition: >
+        The authentication credential for the Fireflies GraphQL API. Obtained from
+        the Fireflies dashboard under Settings > Integrations > API. Passed as a
+        Bearer token in the HTTP Authorization header for all API requests.
+
+    - term: SpeakerDiarization
+      definition: >
+        The AI process by which Fireflies identifies and separates individual
+        speakers within a meeting recording, assigning each utterance to a specific
+        participant identified by name or speaker ID.
+      related:
+        - Speaker
+        - Sentence
+
+    - term: MeetingType
+      definition: >
+        An AI-detected classification of the meeting's purpose (e.g., sales call,
+        standup, interview, planning session). Part of the Summary object for
+        each transcript.
+      related:
+        - Summary

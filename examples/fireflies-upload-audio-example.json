@@ -1,0 +1,50 @@
+{
+  "summary": "Upload an audio file for Fireflies transcription",
+  "description": "Example GraphQL mutation to submit an external audio URL for transcription, including attendees and webhook notification.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.fireflies.ai/graphql",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_API_KEY"
+    },
+    "body": {
+      "query": "mutation UploadAudio($input: AudioUploadInput!) { uploadAudio(input: $input) { success title message } }",
+      "variables": {
+        "input": {
+          "url": "https://example.com/recordings/team-standup-2026-06-10.mp3",
+          "title": "Daily Standup - June 10 2026",
+          "webhook": "https://example.com/webhooks/fireflies",
+          "custom_language": "en",
+          "save_video": false,
+          "attendees": [
+            {
+              "displayName": "Alice Johnson",
+              "email": "alice@example.com"
+            },
+            {
+              "displayName": "Bob Smith",
+              "email": "bob@example.com"
+            }
+          ],
+          "client_reference_id": "standup-2026-06-10"
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "uploadAudio": {
+          "success": true,
+          "title": "Daily Standup - June 10 2026",
+          "message": "Audio submitted for transcription. You will be notified via webhook when complete."
+        }
+      }
+    }
+  }
+}
