@@ -1,7 +1,17 @@
 aid: fireflies
 name: Fireflies.ai
-description: >
-  Fireflies.ai is an AI meeting assistant that automatically joins video calls, records, transcribes, and summarizes meetings across platforms such as Zoom, Google Meet, and Microsoft Teams. The platform provides a GraphQL API giving developers structured access to call recordings, transcripts, summaries, action items, speaker analytics, and meeting intelligence. Teams can retrieve and search transcript data, manage meetings programmatically, and integrate meeting context into CRM, project management, and workflow automation tools. Advanced features include AskFred AI for natural language queries against meeting content, real-time transcription via a live API, webhooks for event-driven integrations, and an MCP server for connecting AI tooling directly to meeting data.
+description: 'Fireflies.ai is an AI meeting assistant that automatically joins video
+  calls, records, transcribes, and summarizes meetings across platforms such as Zoom,
+  Google Meet, and Microsoft Teams. The platform provides a GraphQL API giving developers
+  structured access to call recordings, transcripts, summaries, action items, speaker
+  analytics, and meeting intelligence. Teams can retrieve and search transcript data,
+  manage meetings programmatically, and integrate meeting context into CRM, project
+  management, and workflow automation tools. Advanced features include AskFred AI
+  for natural language queries against meeting content, real-time transcription via
+  a live API, webhooks for event-driven integrations, and an MCP server for connecting
+  AI tooling directly to meeting data.
+
+  '
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/fireflies/refs/heads/main/apis.yml
@@ -9,83 +19,90 @@ created: '2026-06-13'
 modified: '2026-06-13'
 specificationVersion: '0.19'
 tags:
-  - AI
-  - Meeting Assistant
-  - Transcription
-  - Summaries
-  - Action Items
-  - GraphQL
-  - Meetings
-  - Productivity
-  - Collaboration
-  - Conversation Intelligence
+- AI
+- Meeting Assistant
+- Transcription
+- Summaries
+- Action Items
+- GraphQL
+- Meetings
+- Productivity
+- Collaboration
+- Conversation Intelligence
 apis:
-  - aid: fireflies:fireflies-graphql-api
-    name: Fireflies GraphQL API
-    description: >
-      The Fireflies GraphQL API provides a single endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites, and access audit event logs via strongly-typed GraphQL queries and mutations.
-    humanURL: https://docs.fireflies.ai/getting-started/introduction
-    baseURL: https://api.fireflies.ai/graphql
-    tags:
-      - GraphQL
-      - Transcripts
-      - Meetings
-      - AI Summaries
-      - Action Items
-      - Analytics
-    properties:
-      - type: Documentation
-        url: https://docs.fireflies.ai/getting-started/introduction
-      - type: Authentication
-        url: https://docs.fireflies.ai/getting-started/authentication
-      - type: OpenAPI
-        url: https://docs.fireflies.ai/openapi.json
-      - type: Webhooks
-        url: https://docs.fireflies.ai/webhooks
-      - type: RealtimeAPI
-        url: https://docs.fireflies.ai/realtime-api
-      - type: MCPServer
-        url: https://api.fireflies.ai/mcp
-      - type: OpenAPI
-        url: openapi/fireflies-graphql-api-openapi.yml
-      - type: JSONSchema
-        url: json-schema/fireflies-transcript.json
-      - type: Examples
-        url: examples/fireflies-get-transcript-example.json
-      - type: Examples
-        url: examples/fireflies-upload-audio-example.json
-    contact:
-      - FN: Fireflies.ai Support
-        url: https://guide.fireflies.ai/
-common:
-  - type: Website
-    url: https://fireflies.ai
+- aid: fireflies:fireflies-graphql-api
+  name: Fireflies GraphQL API
+  description: 'The Fireflies GraphQL API provides a single endpoint for querying
+    and mutating all meeting data including transcripts, summaries, action items,
+    speakers, and analytics. Developers can retrieve transcripts, manage live meetings,
+    work with AskFred AI threads, handle bites, and access audit event logs via strongly-typed
+    GraphQL queries and mutations.
+
+    '
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - GraphQL
+  - Transcripts
+  - Meetings
+  - AI Summaries
+  - Action Items
+  - Analytics
+  properties:
   - type: Documentation
-    url: https://docs.fireflies.ai
-  - type: GitHubOrg
-    url: https://github.com/firefliesai
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/fireflies-inc/
-  - type: Blog
-    url: https://fireflies.ai/blog
-  - type: Pricing
-    url: https://fireflies.ai/pricing
-  - type: StatusPage
-    url: https://status.fireflies.ai/
-  - type: X
-    url: https://twitter.com/firefliesai
-  - type: Plans
-    url: plans/fireflies-plans-pricing.yml
-  - type: RateLimits
-    url: rate-limits/fireflies-rate-limits.yml
-  - type: FinOps
-    url: finops/fireflies-finops.yml
-  - type: Vocabulary
-    url: vocabulary/fireflies-vocabulary.yml
-  - type: JSONLDContext
-    url: json-ld/fireflies-context.jsonld
-  - type: Blog
-    url: blogs/blogs.json
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: OpenAPI
+    url: https://docs.fireflies.ai/openapi.json
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: MCPServer
+    url: https://api.fireflies.ai/mcp
+  - type: OpenAPI
+    url: openapi/fireflies-graphql-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - url: graphql/fireflies-graphql.md
+    type: GraphQL
+  contact:
+  - FN: Fireflies.ai Support
+    url: https://guide.fireflies.ai/
+common:
+- type: Website
+  url: https://fireflies.ai
+- type: Documentation
+  url: https://docs.fireflies.ai
+- type: GitHubOrg
+  url: https://github.com/firefliesai
+- type: LinkedIn
+  url: https://www.linkedin.com/company/fireflies-inc/
+- type: Blog
+  url: https://fireflies.ai/blog
+- type: Pricing
+  url: https://fireflies.ai/pricing
+- type: StatusPage
+  url: https://status.fireflies.ai/
+- type: X
+  url: https://twitter.com/firefliesai
+- type: Plans
+  url: plans/fireflies-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/fireflies-rate-limits.yml
+- type: FinOps
+  url: finops/fireflies-finops.yml
+- type: Vocabulary
+  url: vocabulary/fireflies-vocabulary.yml
+- type: JSONLDContext
+  url: json-ld/fireflies-context.jsonld
+- type: Blog
+  url: blogs/blogs.json
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
