@@ -2,7 +2,7 @@
   "provider": "Fireflies.ai",
   "blog_url": "https://fireflies.ai/blog",
   "rss_url": "https://fireflies.ai/blog/rss/",
-  "fetched": "2026-06-13",
+  "fetched": "2026-06-14T20:42:17Z",
   "posts": [
     {
       "title": "How Urenbank turns weeks of UX research into a day with Fireflies",
@@ -34,5 +34,16 @@
       "published": "2026-02-13T08:50:08Z",
       "description": "Customer story: how LevelUp Leads uses Fireflies to track all client, sales, and hiring conversations across their team."
     }
-  ]
+  ],
+  "repo": "fireflies",
+  "feeds": [
+    {
+      "source": "https://www.linkedin.com/company/fireflies-inc/",
+      "feed_url": "https://www.linkedin.com/company/fireflies-inc/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0
 }
