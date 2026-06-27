@@ -1,49 +1,18 @@
 {
-  "provider": "Fireflies.ai",
-  "blog_url": "https://fireflies.ai/blog",
-  "rss_url": "https://fireflies.ai/blog/rss/",
-  "fetched": "2026-06-14T20:42:17Z",
-  "posts": [
-    {
-      "title": "How Urenbank turns weeks of UX research into a day with Fireflies",
-      "url": "https://fireflies.ai/blog/urenbank-fireflies-ux-research/",
-      "published": "2026-06-11T14:59:49Z",
-      "description": "An innovation specialist at Urenbank stopped following his interview script. Now his UX research synthesis takes less than a day instead of weeks. Here's the workflow."
-    },
-    {
-      "title": "12 Meeting Minutes Templates for Every Type of Meeting You'll Ever Have",
-      "url": "https://fireflies.ai/blog/meeting-minutes-templates/",
-      "published": "2026-06-01T17:00:00Z",
-      "description": "Keep your team on the same page with these 12 meeting minutes templates designed for every meeting type."
-    },
-    {
-      "title": "How to Build an AI Sales Coach That Evaluates Reps on Objection Handling",
-      "url": "https://fireflies.ai/blog/how-to-build-an-ai-sales-coach-that-evaluates-reps-on-objection-handling/",
-      "published": "2026-04-22T14:22:30Z",
-      "description": "Objection handling can make or break a sale. Learn how to build an AI sales coaching workflow using Fireflies meeting data."
-    },
-    {
-      "title": "Fireflies x Folk: Turn Every Meeting Into a Clean Folk CRM Record (2026 Guide)",
-      "url": "https://fireflies.ai/blog/fireflies-folk-integration/",
-      "published": "2026-04-21T12:39:05Z",
-      "description": "Connect Fireflies to Folk CRM in 5 minutes. Auto-sync meeting notes, create people records, and keep your pipeline updated automatically."
-    },
-    {
-      "title": "How LevelUp Leads Keeps Every Client, Sales, and Hiring Conversation on Track",
-      "url": "https://fireflies.ai/blog/how-levelup-leads-keeps-every-client-sales-and-hiring-conversation-on-track/",
-      "published": "2026-02-13T08:50:08Z",
-      "description": "Customer story: how LevelUp Leads uses Fireflies to track all client, sales, and hiring conversations across their team."
-    }
-  ],
   "repo": "fireflies",
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/fireflies-inc/",
-      "feed_url": "https://www.linkedin.com/company/fireflies-inc/",
+      "source": "https://fireflies.ai/blog/feed/",
+      "feed_url": "https://fireflies.ai/blog/feed/",
       "title": "",
-      "saved": 0,
-      "method": "none"
+      "saved": 1,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.linkedin.com/company/fireflies-inc/",
+      "error": "HTTPError"
     }
   ],
-  "post_count": 0
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 3
 }
