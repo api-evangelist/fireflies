@@ -75,6 +75,14 @@ apis:
   - FN: Fireflies.ai Support
     url: https://guide.fireflies.ai/
 common:
+- type: TrustCenter
+  url: security/fireflies-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/fireflies-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/fireflies-domain-security.yml
+- type: Authentication
+  url: authentication/fireflies-authentication.yml
 - type: Website
   url: https://fireflies.ai
 - type: Documentation

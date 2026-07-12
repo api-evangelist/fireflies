@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/fireflies-graphql-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: Obtain an API key from the Fireflies dashboard under Settings > Integrations
+    > API. Pass the key as a Bearer token in the Authorization header.
+  sources:
+  - openapi/fireflies-graphql-api-openapi.yml
