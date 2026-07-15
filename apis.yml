@@ -75,6 +75,8 @@ apis:
   - FN: Fireflies.ai Support
     url: https://guide.fireflies.ai/
 common:
+- type: AgenticAccess
+  url: agentic-access/fireflies-agentic-access.yml
 - type: TrustCenter
   url: security/fireflies-trust-center.yml
 - type: VulnerabilityDisclosure
