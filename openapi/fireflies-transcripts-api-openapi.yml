@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: Fireflies GraphQL AI Apps Transcripts API
+  description: 'The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Fireflies.ai Support
+    url: https://guide.fireflies.ai/
+  x-api-type: GraphQL
+  x-documentation-url: https://docs.fireflies.ai/getting-started/introduction
+servers:
+- url: https://api.fireflies.ai/graphql
+  description: Fireflies GraphQL API endpoint
+security:
+- BearerAuth: []
+tags:
+- name: Transcripts
+  description: Retrieve and manage meeting transcripts and their content
+paths:
+  /:
+    post:
+      summary: Execute a GraphQL operation
+      description: 'All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.
+
+        '
+      operationId: graphqlOperation
+      tags:
+      - Transcripts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              GetTranscript:
+                summary: Query a single transcript by ID
+                value:
+                  query: "query Transcript($id: String!) {\n  transcript(id: $id) {\n    id\n    title\n    date\n    duration\n    host_email\n    organizer_email\n    participants\n    transcript_url\n    audio_url\n    video_url\n    summary {\n      overview\n      action_items\n      keywords\n      gist\n      short_summary\n      meeting_type\n      topics_discussed\n    }\n    sentences {\n      index\n      speaker_name\n      text\n      start_time\n      end_time\n    }\n  }\n}\n"
+                  variables:
+                    id: transcript-id-here
+              ListTranscripts:
+                summary: List transcripts with filters
+                value:
+                  query: "query Transcripts(\n  $title: String\n  $limit: Int\n  $skip: Int\n  $mine: Boolean\n  $host_email: String\n  $participant_email: String\n) {\n  transcripts(\n    title: $title\n    limit: $limit\n    skip: $skip\n    mine: $mine\n    host_email: $host_email\n    participant_email: $participant_email\n  ) {\n    id\n    title\n    date\n    duration\n    host_email\n    participants\n  }\n}\n"
+                  variables:
+                    limit: 10
+                    skip: 0
+                    mine: true
+              GetUser:
+                summary: Get the current authenticated user
+                value:
+                  query: "query User {\n  user {\n    user_id\n    name\n    email\n    num_transcripts\n    minutes_consumed\n    is_admin\n    integrations\n    recent_transcript\n    recent_meeting\n  }\n}\n"
+              GetUsers:
+                summary: List all users in the workspace
+                value:
+                  query: "query Users {\n  users {\n    user_id\n    name\n    email\n    is_admin\n    num_transcripts\n  }\n}\n"
+              GetBite:
+                summary: Get a single bite by ID
+                value:
+                  query: "query Bite($id: ID!) {\n  bite(id: $id) {\n    id\n    name\n    transcript_id\n    status\n    summary\n    start_time\n    end_time\n    media_type\n    created_at\n    thumbnail\n    preview\n  }\n}\n"
+                  variables:
+                    id: bite-id-here
+              ListBites:
+                summary: List bites with filters
+                value:
+                  query: "query Bites($mine: Boolean, $transcript_id: ID, $my_team: Boolean, $limit: Int) {\n  bites(mine: $mine, transcript_id: $transcript_id, my_team: $my_team, limit: $limit) {\n    id\n    name\n    transcript_id\n    status\n    summary\n    start_time\n    end_time\n    media_type\n    created_at\n  }\n}\n"
+                  variables:
+                    mine: true
+                    limit: 10
+              GetAIAppsOutputs:
+                summary: Get AI app outputs for transcripts
+                value:
+                  query: "query GetAIAppsOutputs(\n  $app_id: String\n  $transcript_id: String\n  $skip: Float\n  $limit: Float\n) {\n  apps(\n    app_id: $app_id\n    transcript_id: $transcript_id\n    skip: $skip\n    limit: $limit\n  ) {\n    outputs {\n      transcript_id\n      user_id\n      app_id\n      created_at\n      title\n      prompt\n      response\n    }\n  }\n}\n"
+                  variables:
+                    limit: 10
+              MutationSetUserRole:
+                summary: Set a user's role (admin or user)
+                value:
+                  query: "mutation SetUserRole($user_id: String!, $role: Role!) {\n  setUserRole(user_id: $user_id, role: $role) {\n    name\n    is_admin\n  }\n}\n"
+                  variables:
+                    user_id: user-id-here
+                    role: admin
+              MutationDeleteTranscript:
+                summary: Delete a transcript by ID
+                value:
+                  query: "mutation DeleteTranscript($id: String!) {\n  deleteTranscript(id: $id) {\n    title\n    date\n    duration\n    organizer_email\n  }\n}\n"
+                  variables:
+                    id: transcript-id-here
+              MutationUploadAudio:
+                summary: Upload an audio file for transcription
+                value:
+                  query: "mutation UploadAudio($input: AudioUploadInput!) {\n  uploadAudio(input: $input) {\n    success\n    title\n    message\n  }\n}\n"
+                  variables:
+                    input:
+                      url: https://example.com/meeting-recording.mp3
+                      title: Q3 Planning Meeting
+                      webhook: https://example.com/webhook
+                      attendees:
+                      - displayName: Jane Smith
+                        email: jane@example.com
+              MutationCreateBite:
+                summary: Create a bite (clip) from a transcript
+                value:
+                  query: "mutation CreateBite(\n  $transcript_id: ID!\n  $name: String\n  $start_time: Float!\n  $end_time: Float!\n  $media_type: String\n  $privacies: [String]\n  $summary: String\n) {\n  createBite(\n    transcript_id: $transcript_id\n    name: $name\n    start_time: $start_time\n    end_time: $end_time\n    media_type: $media_type\n    privacies: $privacies\n    summary: $summary\n  ) {\n    status\n    name\n    id\n  }\n}\n"
+                  variables:
+                    transcript_id: transcript-id-here
+                    name: Key insight clip
+                    start_time: 120.5
+                    end_time: 180.0
+                    media_type: video
+                    privacies:
+                    - public
+              MutationAddToLiveMeeting:
+                summary: Add Fireflies bot to a live meeting
+                value:
+                  query: "mutation AddToLiveMeeting(\n  $meeting_link: String!\n  $title: String\n  $duration: Int\n  $language: String\n  $attendees: [Attendee]\n) {\n  addToLiveMeeting(\n    meeting_link: $meeting_link\n    title: $title\n    duration: $duration\n    language: $language\n    attendees: $attendees\n  ) {\n    success\n  }\n}\n"
+                  variables:
+                    meeting_link: https://zoom.us/j/1234567890
+                    title: Weekly Standup
+                    duration: 60
+                    language: en
+      responses:
+        '200':
+          description: GraphQL response (errors may still be present in the response body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '401':
+          description: Authentication failed — invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLErrorResponse'
+              example:
+                errors:
+                - friendly: true
+                  code: auth_failed
+                  message: An error occurred while authenticating your request. Please recheck your API key and try again.
+                  extensions:
+                    code: auth_failed
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        friendly:
+          type: boolean
+        extensions:
+          type: object
+          properties:
+            code:
+              type: string
+          additionalProperties: true
+    GraphQLErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The result data returned by the GraphQL operation
+          additionalProperties: true
+        errors:
+          type: array
+          description: GraphQL errors, if any
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: The GraphQL query or mutation string
+        variables:
+          type: object
+          description: Variables referenced in the query string
+          additionalProperties: true
+        operationName:
+          type: string
+          description: Optional name of the operation to execute (for multi-operation documents)
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Obtain an API key from the Fireflies dashboard under Settings > Integrations > API. Pass the key as a Bearer token in the Authorization header.
+
+        '
