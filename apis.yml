@@ -13,7 +13,20 @@ description: 'Fireflies.ai is an AI meeting assistant that automatically joins v
 
   '
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/fireflies.png
 url: https://raw.githubusercontent.com/api-evangelist/fireflies/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -30,50 +43,162 @@ tags:
 - Collaboration
 - Conversation Intelligence
 apis:
-- aid: fireflies:fireflies-graphql-api
-  name: Fireflies GraphQL API
-  description: 'The Fireflies GraphQL API provides a single endpoint for querying
-    and mutating all meeting data including transcripts, summaries, action items,
-    speakers, and analytics. Developers can retrieve transcripts, manage live meetings,
-    work with AskFred AI threads, handle bites, and access audit event logs via strongly-typed
-    GraphQL queries and mutations.
-
-    '
+- aid: fireflies:fireflies-ai-apps-api
+  name: Fireflies.ai AI Apps API
+  description: Access AI-generated app outputs for transcripts
   humanURL: https://docs.fireflies.ai/getting-started/introduction
   baseURL: https://api.fireflies.ai/graphql
   tags:
-  - GraphQL
-  - Transcripts
-  - Meetings
-  - AI Summaries
-  - Action Items
-  - Analytics
+  - AI Apps
   properties:
+  - type: OpenAPI
+    url: openapi/fireflies-ai-apps-api-openapi.yml
   - type: Documentation
     url: https://docs.fireflies.ai/getting-started/introduction
   - type: Authentication
     url: https://docs.fireflies.ai/getting-started/authentication
-  - type: OpenAPI
-    url: https://docs.fireflies.ai/openapi.json
   - type: Webhooks
     url: https://docs.fireflies.ai/webhooks
   - type: RealtimeAPI
     url: https://docs.fireflies.ai/realtime-api
-  - type: MCPServer
-    url: https://api.fireflies.ai/mcp
-  - type: OpenAPI
-    url: openapi/fireflies-graphql-api-openapi.yml
   - type: JSONSchema
     url: json-schema/fireflies-transcript.json
   - type: Examples
     url: examples/fireflies-get-transcript-example.json
   - type: Examples
     url: examples/fireflies-upload-audio-example.json
-  - url: graphql/fireflies-graphql.md
-    type: GraphQL
-  contact:
-  - FN: Fireflies.ai Support
-    url: https://guide.fireflies.ai/
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
+- aid: fireflies:fireflies-audio-upload-api
+  name: Fireflies.ai Audio Upload API
+  description: Upload audio files for transcription
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - Audio Upload
+  properties:
+  - type: OpenAPI
+    url: openapi/fireflies-audio-upload-api-openapi.yml
+  - type: Documentation
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
+- aid: fireflies:fireflies-bites-api
+  name: Fireflies.ai Bites API
+  description: Create and retrieve meeting clips (bites)
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - Bites
+  properties:
+  - type: OpenAPI
+    url: openapi/fireflies-bites-api-openapi.yml
+  - type: Documentation
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
+- aid: fireflies:fireflies-live-meetings-api
+  name: Fireflies.ai Live Meetings API
+  description: Add Fireflies bot to live meetings
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - Live Meetings
+  properties:
+  - type: OpenAPI
+    url: openapi/fireflies-live-meetings-api-openapi.yml
+  - type: Documentation
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
+- aid: fireflies:fireflies-transcripts-api
+  name: Fireflies.ai Transcripts API
+  description: Retrieve and manage meeting transcripts and their content
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - Transcripts
+  properties:
+  - type: OpenAPI
+    url: openapi/fireflies-transcripts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
+- aid: fireflies:fireflies-users-api
+  name: Fireflies.ai Users API
+  description: Query user account information and manage user roles
+  humanURL: https://docs.fireflies.ai/getting-started/introduction
+  baseURL: https://api.fireflies.ai/graphql
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/fireflies-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.fireflies.ai/getting-started/introduction
+  - type: Authentication
+    url: https://docs.fireflies.ai/getting-started/authentication
+  - type: Webhooks
+    url: https://docs.fireflies.ai/webhooks
+  - type: RealtimeAPI
+    url: https://docs.fireflies.ai/realtime-api
+  - type: JSONSchema
+    url: json-schema/fireflies-transcript.json
+  - type: Examples
+    url: examples/fireflies-get-transcript-example.json
+  - type: Examples
+    url: examples/fireflies-upload-audio-example.json
+  - type: GraphQL
+    url: graphql/fireflies-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/fireflies-agentic-access.yml
