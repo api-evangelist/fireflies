@@ -1,0 +1,24 @@
+{
+  "provider": "fireflies",
+  "sources": [
+    "fireflies-ai-apps-api-openapi.yml",
+    "fireflies-audio-upload-api-openapi.yml",
+    "fireflies-bites-api-openapi.yml",
+    "fireflies-live-meetings-api-openapi.yml",
+    "fireflies-transcripts-api-openapi.yml",
+    "fireflies-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "fireflies-ai-apps-api-openapi.yml",
+    "fireflies-audio-upload-api-openapi.yml",
+    "fireflies-bites-api-openapi.yml",
+    "fireflies-live-meetings-api-openapi.yml",
+    "fireflies-transcripts-api-openapi.yml",
+    "fireflies-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,920 @@
+openapi: 3.0.3
+info:
+  title: Fireflies GraphQL API
+  description: >
+    The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating
+    all meeting data including transcripts, summaries, action items, speakers, and analytics.
+    Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads,
+    handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL
+    queries and mutations. Authentication uses a Bearer API key passed in the Authorization
+    header.
+  version: 1.0.0
+  contact:
+    name: Fireflies.ai Support
+    url: https://guide.fireflies.ai/
+  x-api-type: GraphQL
+  x-documentation-url: https://docs.fireflies.ai/getting-started/introduction
+servers:
+  - url: https://api.fireflies.ai/graphql
+    description: Fireflies GraphQL API endpoint
+security:
+  - BearerAuth: []
+tags:
+  - name: Transcripts
+    description: Retrieve and manage meeting transcripts and their content
+  - name: Users
+    description: Query user account information and manage user roles
+  - name: Bites
+    description: Create and retrieve meeting clips (bites)
+  - name: Live Meetings
+    description: Add Fireflies bot to live meetings
+  - name: Audio Upload
+    description: Upload audio files for transcription
+  - name: AI Apps
+    description: Access AI-generated app outputs for transcripts
+paths:
+  /:
+    post:
+      summary: Execute a GraphQL operation
+      description: >
+        All Fireflies API operations are performed via GraphQL POST requests to this single
+        endpoint. The body must contain a `query` string (GraphQL query or mutation) and
+        optionally a `variables` object. See the Fireflies documentation for the full schema
+        of available queries and mutations.
+      operationId: graphqlOperation
+      tags:
+        - Transcripts
+        - Users
+        - Bites
+        - Live Meetings
+        - Audio Upload
+        - AI Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              GetTranscript:
+                summary: Query a single transcript by ID
+                value:
+                  query: |
+                    query Transcript($id: String!) {
+                      transcript(id: $id) {
+                        id
+                        title
+                        date
+                        duration
+                        host_email
+                        organizer_email
+                        participants
+                        transcript_url
+                        audio_url
+                        video_url
+                        summary {
+                          overview
+                          action_items
+                          keywords
+                          gist
+                          short_summary
+                          meeting_type
+                          topics_discussed
+                        }
+                        sentences {
+                          index
+                          speaker_name
+                          text
+                          start_time
+                          end_time
+                        }
+                      }
+                    }
+                  variables:
+                    id: transcript-id-here
+              ListTranscripts:
+                summary: List transcripts with filters
+                value:
+                  query: |
+                    query Transcripts(
+                      $title: String
+                      $limit: Int
+                      $skip: Int
+                      $mine: Boolean
+                      $host_email: String
+                      $participant_email: String
+                    ) {
+                      transcripts(
+                        title: $title
+                        limit: $limit
+                        skip: $skip
+                        mine: $mine
+                        host_email: $host_email
+                        participant_email: $participant_email
+                      ) {
+                        id
+                        title
+                        date
+                        duration
+                        host_email
+                        participants
+                      }
+                    }
+                  variables:
+                    limit: 10
+                    skip: 0
+                    mine: true
+              GetUser:
+                summary: Get the current authenticated user
+                value:
+                  query: |
+                    query User {
+                      user {
+                        user_id
+                        name
+                        email
+                        num_transcripts
+                        minutes_consumed
+                        is_admin
+                        integrations
+                        recent_transcript
+                        recent_meeting
+                      }
+                    }
+              GetUsers:
+                summary: List all users in the workspace
+                value:
+                  query: |
+                    query Users {
+                      users {
+                        user_id
+                        name
+                        email
+                        is_admin
+                        num_transcripts
+                      }
+                    }
+              GetBite:
+                summary: Get a single bite by ID
+                value:
+                  query: |
+                    query Bite($id: ID!) {
+                      bite(id: $id) {
+                        id
+                        name
+                        transcript_id
+                        status
+                        summary
+                        start_time
+                        end_time
+                        media_type
+                        created_at
+                        thumbnail
+                        preview
+                      }
+                    }
+                  variables:
+                    id: bite-id-here
+              ListBites:
+                summary: List bites with filters
+                value:
+                  query: |
+                    query Bites($mine: Boolean, $transcript_id: ID, $my_team: Boolean, $limit: Int) {
+                      bites(mine: $mine, transcript_id: $transcript_id, my_team: $my_team, limit: $limit) {
+                        id
+                        name
+                        transcript_id
+                        status
+                        summary
+                        start_time
+                        end_time
+                        media_type
+                        created_at
+                      }
+                    }
+                  variables:
+                    mine: true
+                    limit: 10
+              GetAIAppsOutputs:
+                summary: Get AI app outputs for transcripts
+                value:
+                  query: |
+                    query GetAIAppsOutputs(
+                      $app_id: String
+                      $transcript_id: String
+                      $skip: Float
+                      $limit: Float
+                    ) {
+                      apps(
+                        app_id: $app_id
+                        transcript_id: $transcript_id
+                        skip: $skip
+                        limit: $limit
+                      ) {
+                        outputs {
+                          transcript_id
+                          user_id
+                          app_id
+                          created_at
+                          title
+                          prompt
+                          response
+                        }
+                      }
+                    }
+                  variables:
+                    limit: 10
+              MutationSetUserRole:
+                summary: Set a user's role (admin or user)
+                value:
+                  query: |
+                    mutation SetUserRole($user_id: String!, $role: Role!) {
+                      setUserRole(user_id: $user_id, role: $role) {
+                        name
+                        is_admin
+                      }
+                    }
+                  variables:
+                    user_id: user-id-here
+                    role: admin
+              MutationDeleteTranscript:
+                summary: Delete a transcript by ID
+                value:
+                  query: |
+                    mutation DeleteTranscript($id: String!) {
+                      deleteTranscript(id: $id) {
+                        title
+                        date
+                        duration
+                        organizer_email
+                      }
+                    }
+                  variables:
+                    id: transcript-id-here
+              MutationUploadAudio:
+                summary: Upload an audio file for transcription
+                value:
+                  query: |
+                    mutation UploadAudio($input: AudioUploadInput!) {
+                      uploadAudio(input: $input) {
+                        success
+                        title
+                        message
+                      }
+                    }
+                  variables:
+                    input:
+                      url: https://example.com/meeting-recording.mp3
+                      title: Q3 Planning Meeting
+                      webhook: https://example.com/webhook
+                      attendees:
+                        - displayName: Jane Smith
+                          email: jane@example.com
+              MutationCreateBite:
+                summary: Create a bite (clip) from a transcript
+                value:
+                  query: |
+                    mutation CreateBite(
+                      $transcript_id: ID!
+                      $name: String
+                      $start_time: Float!
+                      $end_time: Float!
+                      $media_type: String
+                      $privacies: [String]
+                      $summary: String
+                    ) {
+                      createBite(
+                        transcript_id: $transcript_id
+                        name: $name
+                        start_time: $start_time
+                        end_time: $end_time
+                        media_type: $media_type
+                        privacies: $privacies
+                        summary: $summary
+                      ) {
+                        status
+                        name
+                        id
+                      }
+                    }
+                  variables:
+                    transcript_id: transcript-id-here
+                    name: Key insight clip
+                    start_time: 120.5
+                    end_time: 180.0
+                    media_type: video
+                    privacies:
+                      - public
+              MutationAddToLiveMeeting:
+                summary: Add Fireflies bot to a live meeting
+                value:
+                  query: |
+                    mutation AddToLiveMeeting(
+                      $meeting_link: String!
+                      $title: String
+                      $duration: Int
+                      $language: String
+                      $attendees: [Attendee]
+                    ) {
+                      addToLiveMeeting(
+                        meeting_link: $meeting_link
+                        title: $title
+                        duration: $duration
+                        language: $language
+                        attendees: $attendees
+                      ) {
+                        success
+                      }
+                    }
+                  variables:
+                    meeting_link: https://zoom.us/j/1234567890
+                    title: Weekly Standup
+                    duration: 60
+                    language: en
+      responses:
+        '200':
+          description: GraphQL response (errors may still be present in the response body)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '401':
+          description: Authentication failed — invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLErrorResponse'
+              example:
+                errors:
+                  - friendly: true
+                    code: auth_failed
+                    message: An error occurred while authenticating your request. Please recheck your API key and try again.
+                    extensions:
+                      code: auth_failed
+        '429':
+          description: Rate limit exceeded
+        '500':
+          description: Internal server error
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Obtain an API key from the Fireflies dashboard under Settings > Integrations > API.
+        Pass the key as a Bearer token in the Authorization header.
+  schemas:
+    GraphQLRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The GraphQL query or mutation string
+        variables:
+          type: object
+          description: Variables referenced in the query string
+          additionalProperties: true
+        operationName:
+          type: string
+          description: Optional name of the operation to execute (for multi-operation documents)
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The result data returned by the GraphQL operation
+          additionalProperties: true
+        errors:
+          type: array
+          description: GraphQL errors, if any
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        friendly:
+          type: boolean
+        extensions:
+          type: object
+          properties:
+            code:
+              type: string
+          additionalProperties: true
+    TranscriptData:
+      type: object
+      description: A Fireflies meeting transcript record
+      properties:
+        id:
+          type: string
+          description: Unique transcript identifier
+        title:
+          type: string
+          description: Meeting title
+        date:
+          type: string
+          format: date-time
+          description: Meeting date/time in ISO 8601 format
+        dateString:
+          type: string
+          description: Human-readable meeting date string
+        duration:
+          type: number
+          description: Meeting duration in seconds
+        privacy:
+          type: string
+          description: Privacy setting for the transcript
+        host_email:
+          type: string
+          format: email
+          description: Email address of the meeting host
+        organizer_email:
+          type: string
+          format: email
+          description: Email address of the meeting organizer
+        participants:
+          type: array
+          items:
+            type: string
+          description: List of participant email addresses
+        transcript_url:
+          type: string
+          format: uri
+          description: URL to view the transcript
+        audio_url:
+          type: string
+          format: uri
+          description: URL to the audio recording
+        video_url:
+          type: string
+          format: uri
+          description: URL to the video recording
+        meeting_link:
+          type: string
+          format: uri
+          description: Original meeting URL
+        calendar_id:
+          type: string
+          description: Associated calendar event ID
+        cal_id:
+          type: string
+          description: Calendar identifier
+        calendar_type:
+          type: string
+          description: Type of calendar integration
+        fireflies_users:
+          type: array
+          items:
+            type: string
+          description: Fireflies user IDs associated with this transcript
+        speakers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Speaker'
+        sentences:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sentence'
+        summary:
+          $ref: '#/components/schemas/Summary'
+        meeting_attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeetingAttendee'
+        user:
+          $ref: '#/components/schemas/UserData'
+    Speaker:
+      type: object
+      description: A meeting speaker
+      properties:
+        id:
+          type: string
+          description: Speaker identifier
+        name:
+          type: string
+          description: Speaker display name
+    Sentence:
+      type: object
+      description: A single utterance in the transcript
+      properties:
+        index:
+          type: integer
+          description: Position of this sentence in the transcript
+        speaker_name:
+          type: string
+          description: Name of the speaker
+        speaker_id:
+          type: string
+          description: ID of the speaker
+        text:
+          type: string
+          description: Transcribed text of the sentence
+        raw_text:
+          type: string
+          description: Raw (unprocessed) transcribed text
+        start_time:
+          type: number
+          description: Start time in seconds from the beginning of the recording
+        end_time:
+          type: number
+          description: End time in seconds from the beginning of the recording
+        ai_filters:
+          $ref: '#/components/schemas/AIFilter'
+        meeting_info:
+          $ref: '#/components/schemas/MeetingInfo'
+    AIFilter:
+      type: object
+      description: AI-generated labels and filters for a transcript sentence
+      properties:
+        task:
+          type: string
+          description: Task or action item detected
+        pricing:
+          type: string
+          description: Pricing discussion detected
+        metric:
+          type: string
+          description: Metric or KPI discussed
+        question:
+          type: string
+          description: Question detected in the sentence
+        date_and_time:
+          type: string
+          description: Date/time reference detected
+        text_cleanup:
+          type: string
+          description: Cleaned-up version of the text
+        sentiment:
+          type: string
+          description: Sentiment analysis result
+    MeetingInfo:
+      type: object
+      description: Metadata about the meeting session
+      properties:
+        fred_joined:
+          type: boolean
+          description: Whether Fireflies bot (Fred) joined the meeting
+        silent_meeting:
+          type: boolean
+          description: Whether the meeting was silent
+        summary_status:
+          type: string
+          description: Status of AI summary generation
+    Summary:
+      type: object
+      description: AI-generated meeting summary
+      properties:
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Key topics extracted from the meeting
+        action_items:
+          type: array
+          items:
+            type: string
+          description: Action items identified in the meeting
+        outline:
+          type: array
+          items:
+            type: string
+          description: Outline of the meeting structure
+        shorthand_bullet:
+          type: string
+          description: Short bullet-point summary
+        overview:
+          type: string
+          description: High-level overview of the meeting
+        bullet_gist:
+          type: string
+          description: Bullet-point gist of the meeting
+        gist:
+          type: string
+          description: Brief gist of the meeting
+        short_summary:
+          type: string
+          description: Short summary of the meeting
+        short_overview:
+          type: string
+          description: Short overview paragraph
+        meeting_type:
+          type: string
+          description: Detected meeting type (e.g., sales, standup, interview)
+        topics_discussed:
+          type: array
+          items:
+            type: string
+          description: Main topics discussed
+        transcript_chapters:
+          type: array
+          items:
+            type: string
+          description: Chapter-based breakdown of the transcript
+    MeetingAttendee:
+      type: object
+      description: A meeting attendee
+      properties:
+        displayName:
+          type: string
+          description: Attendee's display name
+        email:
+          type: string
+          format: email
+          description: Attendee's email address
+        phoneNumber:
+          type: string
+          description: Attendee's phone number
+        name:
+          type: string
+          description: Attendee's name
+        location:
+          type: string
+          description: Attendee's location
+    UserData:
+      type: object
+      description: A Fireflies user account
+      properties:
+        user_id:
+          type: string
+          description: Unique user identifier
+        name:
+          type: string
+          description: User's full name
+        email:
+          type: string
+          format: email
+          description: User's email address
+        num_transcripts:
+          type: integer
+          description: Total number of transcripts for this user
+        minutes_consumed:
+          type: number
+          description: Total transcription minutes consumed
+        is_admin:
+          type: boolean
+          description: Whether the user has admin privileges
+        integrations:
+          type: array
+          items:
+            type: string
+          description: List of enabled integrations
+        recent_transcript:
+          type: string
+          description: ID of the most recent transcript
+        recent_meeting:
+          type: string
+          description: ID of the most recent meeting
+    BiteData:
+      type: object
+      description: A Fireflies bite (meeting clip)
+      properties:
+        id:
+          type: string
+          description: Unique bite identifier
+        name:
+          type: string
+          description: Bite name/title
+        transcript_id:
+          type: string
+          description: ID of the parent transcript
+        thumbnail:
+          type: string
+          format: uri
+          description: URL to the bite thumbnail image
+        preview:
+          type: string
+          format: uri
+          description: URL to the bite preview
+        status:
+          type: string
+          description: Processing status of the bite
+        summary:
+          type: string
+          description: Summary of the bite content
+        user_id:
+          type: string
+          description: ID of the user who created the bite
+        start_time:
+          type: number
+          description: Start time in seconds within the recording
+        end_time:
+          type: number
+          description: End time in seconds within the recording
+        summary_status:
+          type: string
+          description: Status of AI summary generation for the bite
+        media_type:
+          type: string
+          enum:
+            - video
+            - audio
+          description: Media type of the bite
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the bite was created
+        privacies:
+          type: array
+          items:
+            type: string
+            enum:
+              - public
+              - team
+              - participants
+          description: Privacy settings for the bite
+        captions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BiteCaption'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/BiteSource'
+        created_from:
+          $ref: '#/components/schemas/BiteCreatedFrom'
+        user:
+          $ref: '#/components/schemas/BiteUser'
+    BiteCaption:
+      type: object
+      description: A caption entry for a bite
+      properties:
+        end_time:
+          type: number
+        index:
+          type: integer
+        speaker_id:
+          type: string
+        speaker_name:
+          type: string
+        start_time:
+          type: number
+        text:
+          type: string
+    BiteSource:
+      type: object
+      description: A media source for a bite
+      properties:
+        src:
+          type: string
+          format: uri
+          description: URL to the media file
+        type:
+          type: string
+          description: MIME type of the media
+    BiteCreatedFrom:
+      type: object
+      description: Origin information for a bite
+      properties:
+        description:
+          type: string
+        duration:
+          type: number
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    BiteUser:
+      type: object
+      description: User who created a bite
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        picture:
+          type: string
+          format: uri
+        name:
+          type: string
+        id:
+          type: string
+    AIAppOutput:
+      type: object
+      description: Output from a Fireflies AI app applied to a transcript
+      properties:
+        transcript_id:
+          type: string
+          description: ID of the transcript this output is for
+        user_id:
+          type: string
+          description: ID of the user who triggered the app
+        app_id:
+          type: string
+          description: ID of the AI app
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the output was created
+        title:
+          type: string
+          description: Title of the AI app output
+        prompt:
+          type: string
+          description: The prompt used by the AI app
+        response:
+          type: string
+          description: The AI-generated response
+    AudioUploadInput:
+      type: object
+      required:
+        - url
+        - title
+      description: Input for uploading an audio file for transcription
+      properties:
+        url:
+          type: string
+          format: uri
+          description: HTTPS URL to the audio file (must be publicly accessible)
+        title:
+          type: string
+          description: Title for the meeting transcript
+        webhook:
+          type: string
+          format: uri
+          description: Webhook URL to notify when transcription is complete
+        custom_language:
+          type: string
+          description: Language code for transcription (e.g., en, es, fr)
+        save_video:
+          type: boolean
+          description: Whether to save video if available
+        attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/AudioUploadAttendee'
+        client_reference_id:
+          type: string
+          description: Custom reference ID for tracking
+    AudioUploadAttendee:
+      type: object
+      description: An attendee for an uploaded audio meeting
+      properties:
+        displayName:
+          type: string
+        email:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+    AudioUploadResponse:
+      type: object
+      description: Response from audio upload mutation
+      properties:
+        success:
+          type: boolean
+        title:
+          type: string
+        message:
+          type: string
+    SetUserRoleResponse:
+      type: object
+      description: Response from setUserRole mutation
+      properties:
+        name:
+          type: string
+        is_admin:
+          type: boolean
+    DeleteTranscriptResponse:
+      type: object
+      description: Response from deleteTranscript mutation
+      properties:
+        title:
+          type: string
+        date:
+          type: integer
+          description: Meeting date as milliseconds since epoch
+        duration:
+          type: number
+        organizer_email:
+          type: string
+          format: email
+    CreateBiteResponse:
+      type: object
+      description: Response from createBite mutation
+      properties:
+        status:
+          type: string
+        name:
+          type: string
+        id:
+          type: string
+    AddToLiveMeetingResponse:
+      type: object
+      description: Response from addToLiveMeeting mutation
+      properties:
+        success:
+          type: boolean
