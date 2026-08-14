@@ -29,7 +29,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/fireflies.png
 url: https://raw.githubusercontent.com/api-evangelist/fireflies/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-14'
 specificationVersion: '0.19'
 tags:
 - AI
@@ -238,6 +238,81 @@ common:
   url: json-ld/fireflies-context.jsonld
 - type: Blog
   url: blogs/blogs.json
+- type: AgentCard
+  url: a2a/fireflies-a2a.yml
+- type: MCPServer
+  url: mcp/fireflies-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/fireflies-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/fireflies-well-known.yml
+- type: LLMsTxt
+  url: llms/fireflies-llms.txt
+- type: Packages
+  url: packages/fireflies-packages.yml
+- type: SDKs
+  url: packages/fireflies-packages.yml
+- type: Conventions
+  url: conventions/fireflies-conventions.yml
+- type: ErrorCatalog
+  url: errors/fireflies-error-codes.yml
+- type: Lifecycle
+  url: lifecycle/fireflies-lifecycle.yml
+- type: ChangeLog
+  url: changelog/fireflies-changelog.yml
+- type: ChangeLog
+  url: https://docs.fireflies.ai/getting-started/whats-new
+- type: OAuthScopes
+  url: scopes/fireflies-scopes.yml
+- type: Webhooks
+  url: asyncapi/fireflies-webhooks.yml
+- type: Conformance
+  url: conformance/fireflies-conformance.yml
+- type: Compliance
+  url: https://trust.fireflies.ai/
+- type: Security
+  url: https://fireflies.ai/bug-bounty
+- type: DataModel
+  url: data-model/fireflies-data-model.yml
+- type: GraphQL
+  url: graphql/fireflies-schema.graphql
+- type: Overlay
+  url: overlays/fireflies-ai-apps-api-overlay.yaml
+- type: Overlay
+  url: overlays/fireflies-audio-upload-api-overlay.yaml
+- type: Overlay
+  url: overlays/fireflies-bites-api-overlay.yaml
+- type: Overlay
+  url: overlays/fireflies-live-meetings-api-overlay.yaml
+- type: Overlay
+  url: overlays/fireflies-transcripts-api-overlay.yaml
+- type: Overlay
+  url: overlays/fireflies-users-api-overlay.yaml
+- type: DeveloperPortal
+  url: https://docs.fireflies.ai
+- type: APIReference
+  url: https://docs.fireflies.ai/graphql-api/query/transcripts
+- type: GettingStarted
+  url: https://docs.fireflies.ai/getting-started/introduction
+- type: Quickstart
+  url: https://docs.fireflies.ai/getting-started/quickstart
+- type: Support
+  url: https://guide.fireflies.ai/hc/en-us
+- type: TermsOfService
+  url: https://fireflies.ai/terms-of-service
+- type: PrivacyPolicy
+  url: https://fireflies.ai/privacy-policy
+- type: SignUp
+  url: https://app.fireflies.ai/login
+- type: GitHubOrganization
+  url: https://github.com/firefliesai
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-14'
+  status: enriched
+  artifacts_added: 32
+  pass: local-v1
