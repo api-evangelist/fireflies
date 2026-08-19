@@ -1,0 +1,114 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai + live /.well-known probes
+description: >-
+  Which cross-cutting standards the Fireflies surface actually conforms to. Claims marked
+  conforms:true are backed either by a document fetched from a Fireflies host or by an explicit
+  statement in the Fireflies docs; conforms:false entries are recorded so the absence is legible
+  rather than assumed.
+standards:
+- id: graphql
+  conforms: true
+  evidence: 'Single GraphQL endpoint https://api.fireflies.ai/graphql; introspection supported (API-key gated); Apollo Sandbox served at the endpoint.'
+  source: https://docs.fireflies.ai/fundamentals/concepts
+- id: mcp
+  conforms: true
+  evidence: 'Hosted remote MCP server at https://api.fireflies.ai/mcp; POST tools/list returns a spec-shaped 401 invalid_token OAuth challenge. 19 tools documented.'
+  source: https://docs.fireflies.ai/mcp-tools/overview
+- id: a2a
+  conforms: true
+  evidence: 'Agent card served at https://docs.fireflies.ai/.well-known/agent-card.json, protocolVersion 0.3, capabilities object, skills array. Graded conformant.'
+  source: a2a/fireflies-a2a.yml
+  note: The card describes the documentation surface, not the GraphQL API.
+- id: oauth2
+  conforms: true
+  evidence: 'Authorization code grant with refresh_token, published on the MCP surface only. The GraphQL API is bearer-API-key and has no OAuth.'
+  source: https://api.fireflies.ai/.well-known/oauth-authorization-server
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: 'Valid metadata document served at /.well-known/oauth-authorization-server on api.fireflies.ai and mcp.fireflies.ai (HTTP 200).'
+  source: well-known/fireflies-api-oauth-authorization-server.json
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: 'Valid protected-resource document served at /.well-known/oauth-protected-resource naming resource https://api.fireflies.ai/mcp (HTTP 200).'
+  source: well-known/fireflies-api-oauth-protected-resource.json
+- id: rfc7636-pkce
+  conforms: true
+  evidence: 'code_challenge_methods_supported: [S256]'
+  source: https://api.fireflies.ai/.well-known/oauth-authorization-server
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: 'registration_endpoint: https://api.fireflies.ai/register'
+  source: https://api.fireflies.ai/.well-known/oauth-authorization-server
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: 'revocation_endpoint: https://api.fireflies.ai/revoke with client_secret_post auth.'
+  source: https://api.fireflies.ai/.well-known/oauth-authorization-server
+- id: oidc
+  conforms: false
+  evidence: '/.well-known/openid-configuration returns 404 on every Fireflies host. The published scopes (profile, email) are OIDC-flavoured names on a plain OAuth 2.0 server, not an OIDC provider.'
+- id: llms-txt
+  conforms: true
+  evidence: 'https://docs.fireflies.ai/llms.txt (HTTP 200, 120 lines) and https://docs.fireflies.ai/llms-full.txt (HTTP 200) are both served.'
+  source: llms/fireflies-llms.txt
+- id: agent-skills
+  conforms: true
+  evidence: 'Provider-published Agent Skill at https://docs.fireflies.ai/.well-known/agent-skills/firefliesai/skill.md, referenced from the agent card.'
+  source: skills/fireflies-firefliesai-provider-skill.md
+- id: hmac-webhook-signatures
+  conforms: true
+  evidence: 'X-Hub-Signature header carrying sha256=<HMAC-SHA256 of raw body>, with documented timing-safe verification, on both webhook generations.'
+  source: https://docs.fireflies.ai/graphql-api/webhooks-v2
+- id: ocsf
+  conforms: true
+  evidence: 'Audit Events query documented as returning OCSF-compliant audit events for meetings, teammates and settings changes (Enterprise, Beta).'
+  source: https://docs.fireflies.ai/graphql-api/query/audit-events
+- id: scim
+  conforms: true
+  evidence: 'SSO + SCIM provisioning listed as an Enterprise plan feature on the pricing page.'
+  source: https://fireflies.ai/pricing
+  note: No SCIM endpoint, schema or base URL is published in the developer documentation.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 'Errors use the GraphQL errors[] envelope with a custom code/friendly/extensions shape. No application/problem+json anywhere.'
+  source: errors/fireflies-error-codes.yml
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: 'No Sunset or Deprecation header support is documented; field deprecations are announced only in the changelog with no removal date.'
+  source: lifecycle/fireflies-lifecycle.yml
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: '/.well-known/security.txt returns 404 on fireflies.ai, api.fireflies.ai, mcp.fireflies.ai and docs.fireflies.ai.'
+  source: well-known/fireflies-well-known.yml
+- id: ietf-ratelimit-headers
+  conforms: false
+  evidence: 'No X-RateLimit-*, RateLimit-* or Retry-After headers are documented. Backoff is signalled only inside the too_many_requests error body via extensions.metadata.retryAfter.'
+  source: conventions/fireflies-conventions.yml
+- id: openapi
+  conforms: false
+  evidence: 'No OpenAPI/Swagger document is published. Probed /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs and /redoc on api.fireflies.ai (all 404) and on the docs and website hosts. The specs in openapi/ are API Evangelist wrappers over the single GraphQL transport, not provider artifacts.'
+- id: rest
+  conforms: false
+  evidence: 'Single POST endpoint; no resource-oriented paths or HTTP verb semantics.'
+- id: idempotency
+  conforms: false
+  evidence: 'No idempotency-key header or contract is published. client_reference_id is correlation only.'
+  source: conventions/fireflies-conventions.yml
+compliance_program:
+  published: true
+  url: https://trust.fireflies.ai/
+  secondary_url: https://fireflies.ai/security
+  certifications:
+  - {name: SOC 2 Type II, source: https://fireflies.ai/security}
+  - {name: HIPAA, source: https://fireflies.ai/security, note: 'BAA available, Enterprise plan only'}
+  - {name: GDPR, source: https://fireflies.ai/security}
+  practices:
+  - '256-bit AES encryption at rest, TLS in transit'
+  - OWASP alignment across development, staging and production with peer-reviewed code
+  - '0-day data retention with vendors and partners; no customer data used for model training by default'
+  - Private storage option (Enterprise)
+  - 'Custom data retention policies (Enterprise)'
+  - 'Bug bounty rewards program (https://fireflies.ai/bug-bounty)'
+  cross_ref: security/fireflies-trust-center.yml
+x-evidence:
+  fetched: '2026-08-14'

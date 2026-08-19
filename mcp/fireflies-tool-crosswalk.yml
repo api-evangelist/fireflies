@@ -1,0 +1,210 @@
+generated: '2026-08-14'
+method: derived
+source: mcp/fireflies-mcp.yml + graphql/fireflies-schema.graphql + openapi/*.yml + https://docs.fireflies.ai/graphql-api/
+description: >-
+  Binds each Fireflies MCP tool to the GraphQL operation that backs it. Fireflies has no
+  resource-per-path REST surface: every REST operation in openapi/ is the SAME single
+  transport operation (operationId `graphqlOperation`, POST https://api.fireflies.ai/graphql),
+  so the meaningful binding target is the GraphQL field, not a REST operationId. Each row
+  therefore carries `graphql:` as the real capability binding and `rest:` as the transport
+  it travels over. Every GraphQL field named here was verified against the provider's own
+  reference pages under https://docs.fireflies.ai/graphql-api/ — none is inferred.
+surfaces:
+  openapi:
+    files:
+    - openapi/fireflies-transcripts-api-openapi.yml
+    - openapi/fireflies-users-api-openapi.yml
+    - openapi/fireflies-bites-api-openapi.yml
+    - openapi/fireflies-live-meetings-api-openapi.yml
+    - openapi/fireflies-audio-upload-api-openapi.yml
+    - openapi/fireflies-ai-apps-api-openapi.yml
+    operations: 1
+    operation_id: graphqlOperation
+    note: Single GraphQL transport POST; not a per-resource REST surface.
+  graphql:
+    endpoint: https://api.fireflies.ai/graphql
+    introspection: gated
+    introspection_evidence: 'POST {__schema{queryType{name}}} anonymously -> HTTP 500 auth_failed'
+    reference: https://docs.fireflies.ai/graphql-api/query/transcripts
+  mcp:
+    url: https://api.fireflies.ai/mcp
+    tools_list: gated
+    tools_list_evidence: 'POST tools/list anonymously -> HTTP 401 invalid_token'
+    reference: https://docs.fireflies.ai/mcp-tools/overview
+  realtime:
+    endpoint: wss://api.fireflies.ai
+    path: /ws/realtime
+    note: Socket.IO live transcription; no MCP tool exposes it.
+crosswalk:
+- tool: fireflies_get_transcripts
+  category: meetings
+  graphql: [transcripts]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: Shares keyword/scope/date/organizers/participants/mine/limit/skip filters with the transcripts query.
+- tool: fireflies_get_transcript
+  category: meetings
+  graphql: [transcript]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: transcriptId maps to transcript(id:); tool omits the summary selection set.
+- tool: fireflies_get_summary
+  category: meetings
+  graphql: [transcript]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: Same transcript field, summary sub-selection only. Fans in with fireflies_get_transcript.
+- tool: fireflies_fetch
+  category: meetings
+  graphql: [transcript]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: medium
+  note: Experimental composite — returns transcript + summary + analytics in one call; no dedicated GraphQL field.
+- tool: fireflies_search
+  category: meetings
+  graphql: [transcripts]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: medium
+  note: >-
+    Experimental. Adds a server-side mini-grammar (keyword:/scope:/from:/to:/limit:/skip:/
+    organizers:/participants:/mine:) that has no GraphQL equivalent; it is parsed by the MCP
+    server and lowered onto the transcripts query.
+- tool: fireflies_get_active_meetings
+  category: meetings
+  graphql: [active_meetings]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_analytics
+  category: analytics
+  graphql: [analytics]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: Team-level analytics require admin privileges on both surfaces.
+- tool: fireflies_share_meeting
+  category: meeting-management
+  graphql: [shareMeeting]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: >-
+    Divergence — MCP documents max 100 emails, the shareMeeting rate-limit doc caps a request
+    at 50 emails and 10 requests/hour. Treat 50 as the safe ceiling.
+- tool: fireflies_revoke_meeting_access
+  category: meeting-management
+  graphql: [revokeSharedMeetingAccess]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_update_meeting_title
+  category: meeting-management
+  graphql: [updateMeetingTitle]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_move_meeting
+  category: meeting-management
+  graphql: [updateMeetingChannel]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: Both cap at 5 transcripts per call with all-or-nothing semantics.
+- tool: fireflies_list_channels
+  category: channels
+  graphql: [channels]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_channel
+  category: channels
+  graphql: [channel]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_soundbites
+  category: soundbites
+  graphql: [bites]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: >-
+    Vocabulary drift — the MCP surface calls them "soundbites", the GraphQL surface calls them
+    "bites". Same object. Shares the args_required rule (one of mine/transcript_id/my_team).
+- tool: fireflies_create_soundbite
+  category: soundbites
+  graphql: [createBite]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_user
+  category: users
+  graphql: [user]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_usergroups
+  category: users
+  graphql: [user_groups]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_user_contacts
+  category: users
+  graphql: [contacts]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+- tool: fireflies_get_rule_executions
+  category: automation
+  graphql: [rule_executions_by_meeting]
+  rest: [graphqlOperation]
+  binding: graphql
+  confidence: high
+  note: Enterprise tier only on both surfaces.
+mcp_only: []
+graphql_only:
+- {field: uploadAudio, kind: mutation, reason: 'No MCP tool ingests media; audio/video upload is API-only.'}
+- {field: deleteTranscript, kind: mutation, reason: 'Destructive delete deliberately absent from the agent tool surface.'}
+- {field: addToLiveMeeting, kind: mutation, reason: 'Dispatching the Fred bot into a live call has no MCP tool.'}
+- {field: updateMeetingState, kind: mutation, reason: 'Pause/resume recording control has no MCP tool.'}
+- {field: updateMeetingPrivacy, kind: mutation, reason: 'Privacy change has no MCP tool; only title/channel/share are agent-exposed.'}
+- {field: setUserRole, kind: mutation, reason: 'Admin role assignment has no MCP tool.'}
+- {field: createLiveActionItem, kind: mutation, reason: 'Live-meeting authoring has no MCP tool.'}
+- {field: createLiveSoundbite, kind: mutation, reason: 'Live-meeting clipping has no MCP tool (createBite path is post-hoc only).'}
+- {field: createAskFredThread, kind: mutation, reason: 'AskFred is not exposed via MCP — the agent is expected to reason over transcripts itself.'}
+- {field: continueAskFredThread, kind: mutation, reason: 'AskFred not exposed via MCP.'}
+- {field: deleteAskFredThread, kind: mutation, reason: 'AskFred not exposed via MCP.'}
+- {field: askfred_threads, kind: query, reason: 'AskFred not exposed via MCP.'}
+- {field: askfred_thread, kind: query, reason: 'AskFred not exposed via MCP.'}
+- {field: bite, kind: query, reason: 'Single-bite fetch has no MCP tool; fireflies_get_soundbites lists only.'}
+- {field: users, kind: query, reason: 'Team user listing has no MCP tool; fireflies_get_usergroups covers group membership.'}
+- {field: apps, kind: query, reason: 'AI Apps outputs have no MCP tool.'}
+- {field: live_action_items, kind: query, reason: 'Live action items have no MCP tool.'}
+- {field: auditEvents, kind: query, reason: 'OCSF audit event log (Enterprise) has no MCP tool.'}
+rest_only:
+- capability: all
+  operations: [graphqlOperation]
+  note: >-
+    The single REST operation is the GraphQL transport itself, so it is not "REST-only" in the
+    usual sense — it is reachable by every tool above. Recorded for completeness.
+coverage:
+  mcp_tools_named: 19
+  mcp_tools_bound: 19
+  mcp_only: 0
+  graphql_fields_total: 34
+  graphql_fields_with_a_tool: 16
+  graphql_only: 18
+  rest_operations_total: 1
+  rest_operations_with_a_tool: 1
+  note: >-
+    18 of 19 tools bind 1:1 to a GraphQL field; fireflies_get_summary and
+    fireflies_get_transcript both fan in to `transcript`, and fireflies_fetch composes it,
+    so 19 tools cover 16 distinct fields. The agent surface is deliberately narrower than
+    the API: every destructive or bot-dispatching mutation (delete, privacy, role, live
+    control) is withheld from MCP.

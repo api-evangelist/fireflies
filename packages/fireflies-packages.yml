@@ -1,0 +1,105 @@
+generated: '2026-08-14'
+method: searched
+source: https://registry.npmjs.org + https://github.com/firefliesai
+description: >-
+  First-party Fireflies client libraries. Fireflies publishes under the npm scope
+  @firefliesai and the GitHub org firefliesai. No PyPI, RubyGems, Packagist, crates.io,
+  NuGet, Maven Central or Go module packages were found under any Fireflies-owned name.
+  Community packages are recorded separately with official: false so the SDK count is not
+  inflated by third-party wrappers.
+summary:
+  official_count: 2
+  community_count: 5
+  languages: [javascript]
+  note: >-
+    DECAY SIGNAL — the only general-purpose first-party SDK, @firefliesai/fireflies-node-sdk,
+    last published 1.1.3 on 2025-05-02. Every API capability shipped since (AskFred 2.16.0,
+    Channels 2.19.0, Meeting Sharing 2.22.0, Live Transcript 2.23.0, the 11 new MCP tools in
+    2.24.0) postdates that release, so the SDK does not cover the current API. The n8n
+    workflow node is maintained far more actively (2.2.2, 2026-07-16).
+packages:
+- language: javascript
+  registry: npm
+  name: "@firefliesai/fireflies-node-sdk"
+  url: https://www.npmjs.com/package/@firefliesai/fireflies-node-sdk
+  repository: https://github.com/firefliesai/fireflies-node-sdk
+  install: npm install @firefliesai/fireflies-node-sdk
+  license: MIT
+  official: true
+  version: 1.1.3
+  published: '2025-05-02'
+  note: >-
+    Node.js SDK for the Fireflies GraphQL API. Latest release predates AskFred, Channels,
+    Meeting Sharing, Live Transcript and the current MCP tool set — treat as behind the API.
+- language: javascript
+  registry: npm
+  name: "@firefliesai/n8n-nodes-fireflies"
+  url: https://www.npmjs.com/package/@firefliesai/n8n-nodes-fireflies
+  repository: https://github.com/firefliesai/n8n-nodes-fireflies
+  install: npm install @firefliesai/n8n-nodes-fireflies
+  license: MIT
+  official: true
+  version: 2.2.2
+  published: '2026-07-16'
+  note: n8n community node for the Fireflies API — workflow automation integration, not a general SDK.
+community_packages:
+- language: php
+  registry: github
+  name: laravel-fireflies
+  url: https://github.com/firefliesai/laravel-fireflies
+  official: false
+  version: null
+  published: null
+  note: >-
+    Laravel wrapper around the Fireflies GraphQL API. Hosted in the firefliesai GitHub org but
+    NOT published to Packagist and carrying no tagged release, so no registry metadata endpoint
+    answers for it — checked, nothing to record. Last repo activity 2025-04-25.
+- language: javascript
+  registry: npm
+  name: fireflies-api
+  url: https://www.npmjs.com/package/fireflies-api
+  official: false
+  version: 0.6.0
+  published: '2026-02-01'
+  note: Third-party TypeScript SDK with Realtime WebSocket support (github.com/BjoernSchotte).
+- language: javascript
+  registry: npm
+  name: node-fireflies
+  url: https://www.npmjs.com/package/node-fireflies
+  official: false
+  version: 1.1.0
+  published: '2023-10-27'
+  note: Third-party TypeScript API library. Stale.
+- language: javascript
+  registry: npm
+  name: fireflies-cli
+  url: https://www.npmjs.com/package/fireflies-cli
+  official: false
+  version: 0.1.0
+  published: '2026-04-17'
+  note: >-
+    Third-party agent-native CLI + MCP server for the Fireflies API. NOT first-party — Fireflies
+    publishes no CLI of its own, which is why cli/ is absent from this repo.
+- language: javascript
+  registry: npm
+  name: fireflies-export
+  url: https://www.npmjs.com/package/fireflies-export
+  official: false
+  version: 0.1.6
+  published: '2026-04-24'
+  note: Third-party CLI to incrementally export meeting transcripts.
+registries_checked:
+- {registry: npm, result: 'found 2 first-party under @firefliesai'}
+- {registry: pypi, result: 'no Fireflies-owned package (pypi.org/pypi/fireflies/json -> 404, fireflies-ai -> 404)'}
+- {registry: rubygems, result: none}
+- {registry: packagist, result: 'none — laravel-fireflies is unpublished'}
+- {registry: crates.io, result: none}
+- {registry: nuget, result: none}
+- {registry: maven-central, result: none}
+- {registry: pkg.go.dev, result: none}
+x-evidence:
+  fetched: '2026-08-14'
+  sources:
+  - https://registry.npmjs.org/@firefliesai/fireflies-node-sdk
+  - https://registry.npmjs.org/@firefliesai/n8n-nodes-fireflies
+  - https://api.github.com/orgs/firefliesai/repos

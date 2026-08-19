@@ -1,0 +1,145 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/graphql-api/webhooks-v2
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  Fireflies publishes NO AsyncAPI document. Probed /asyncapi.yaml and /asyncapi.json on
+  api.fireflies.ai, mcp.fireflies.ai and docs.fireflies.ai (all 404), listed the 19 public
+  repositories in the firefliesai GitHub org, and read the full docs index at
+  https://docs.fireflies.ai/llms.txt (zero matches for "asyncapi") — no event specification
+  exists. Fireflies DOES have a real, documented event surface (two webhook generations plus a
+  Socket.IO realtime stream), so it is captured below as a webhook/event catalog rather than
+  fabricated into an AsyncAPI document.
+description: >-
+  Fireflies exposes three distinct event surfaces: legacy Webhooks V1 (single transcription-complete
+  event), Webhooks V2 (three granular meeting-lifecycle events), and the Realtime API (Socket.IO
+  over WebSocket, live transcription segments).
+surfaces:
+- id: webhooks-v2
+  kind: webhook
+  status: current
+  docs: https://docs.fireflies.ai/graphql-api/webhooks-v2
+  configuration: https://app.fireflies.ai/integrations/api/webhook
+  transport: 'HTTPS POST, application/json'
+  subscription: 'Per-event opt-in — only subscribed events are delivered'
+  delivery:
+    ack_status: 2xx
+    ack_timeout_seconds: 10
+    retry: 'None documented — a non-2xx or a timeout is marked failed'
+    user_agent: Fireflies-Webhook/1.0
+  security:
+    scheme: hmac
+    algorithm: HMAC-SHA256
+    header: X-Hub-Signature
+    format: 'sha256=<hex-encoded digest of the raw request body>'
+    secret: 'Signing Secret configured per webhook; signature sent only when a secret is set'
+    verification: timing-safe comparison
+  payload_fields:
+  - {name: event, type: String, required: true, description: The event type that triggered the webhook}
+  - {name: timestamp, type: Number, required: true, description: Unix timestamp in milliseconds}
+  - {name: meeting_id, type: String, required: true, description: 'Meeting / transcript id (interchangeable at Fireflies)'}
+  - {name: client_reference_id, type: String, required: false, description: Caller-supplied correlation id set at upload time}
+  events:
+  - name: meeting.transcribed
+    description: Triggers when a meeting has been transcribed and the transcript is ready.
+    example:
+      event: meeting.transcribed
+      timestamp: 1710876543210
+      meeting_id: ASxwZxCstx
+      client_reference_id: be582c46-4ac9-4565-9ba6-6ab4264496a8
+  - name: meeting.summarized
+    description: Triggers when the AI-generated summary (action items, notes, insights) has been produced.
+    example:
+      event: meeting.summarized
+      timestamp: 1710876789456
+      meeting_id: ASxwZxCstx
+  - name: meeting.bot_joined
+    description: Triggers when the Fred bot successfully joins a meeting. Useful for starting realtime streaming workflows.
+    example:
+      event: meeting.bot_joined
+      timestamp: 1781258655914
+      meeting_id: 01KTXMH9V8RPY1B4DTYKB27WYR
+- id: webhooks-v1
+  kind: webhook
+  status: legacy
+  docs: https://docs.fireflies.ai/graphql-api/webhooks
+  configuration: 'https://app.fireflies.ai/settings -> Developer settings'
+  transport: 'HTTPS POST, application/json'
+  subscription: 'All events (single event type)'
+  security:
+    scheme: hmac
+    algorithm: HMAC-SHA256
+    header: x-hub-signature
+    secret: 'Custom 16-32 character secret, or generated, in Developer Settings'
+  payload_fields:
+  - {name: meetingId, type: String, required: true, description: Meeting / transcript id}
+  - {name: eventType, type: String, required: false, description: Name of the event fired}
+  - {name: clientReferenceId, type: ID, required: false, description: Caller-supplied correlation id set at upload time}
+  events:
+  - name: Transcription completed
+    description: Triggers when a meeting has been processed and the transcript is ready for viewing.
+    example:
+      meetingId: ASxwZxCstx
+      eventType: Transcription completed
+      clientReferenceId: be582c46-4ac9-4565-9ba6-6ab4264496a8
+  scoping:
+  - 'Fires only for meetings the webhook owner organizes (organizer_email)'
+  - 'Team-wide webhooks require Enterprise tier with the Super Admin role'
+  per_request_override:
+    field: webhook
+    on: AudioUploadInput
+    note: 'A webhook URL supplied on uploadAudio applies to that single upload only, not to the account.'
+- id: realtime-api
+  kind: websocket
+  status: beta
+  docs: https://docs.fireflies.ai/realtime-api/event-schema
+  endpoint: wss://api.fireflies.ai
+  path: /ws/realtime
+  protocol: Socket.IO
+  auth:
+    params:
+    - {name: token, type: string, description: 'Bearer <api_key>'}
+    - {name: transcriptId, type: string, description: Meeting / transcript id to subscribe to}
+    note: Authentication failure emits auth.failed and disconnects the socket.
+  events:
+  - {name: auth.success, direction: server-to-client, description: Emitted when authentication succeeds.}
+  - {name: auth.failed, direction: server-to-client, description: 'Emitted when authentication fails; the socket disconnects afterwards.'}
+  - {name: connection.established, direction: server-to-client, description: Emitted when the connection is successfully established.}
+  - {name: connection.error, direction: server-to-client, description: Emitted on a connection or authorization error.}
+  - {name: transcription.broadcast, direction: server-to-client, description: Emitted for every new transcription segment or update.}
+  message_schema:
+    name: RealtimeTranscriptionEvent
+    fields:
+    - {name: transcript_id, type: String, description: Unique identifier for the transcript / meeting}
+    - {name: chunk_id, type: String, description: 'Segment identifier — reused when a segment is UPDATED, so use it to deduplicate'}
+    - {name: text, type: String, description: The transcribed text for this segment}
+    - {name: speaker_name, type: String, description: Name of the speaker for this segment}
+    - {name: start_time, type: Float, description: Start time in seconds}
+    - {name: end_time, type: Float, description: End time in seconds}
+    example:
+      transcript_id: abc123
+      chunk_id: chunk_001
+      text: Hello world
+      speaker_name: Alice
+      start_time: 0.0
+      end_time: 1.25
+summary:
+  webhook_generations: 2
+  webhook_events: 4
+  realtime_events: 5
+  signature_verified: true
+  asyncapi: false
+x-evidence:
+  fetched: '2026-08-14'
+  probes:
+  - {url: 'https://docs.fireflies.ai/graphql-api/webhooks-v2.md', http_status: 200}
+  - {url: 'https://docs.fireflies.ai/graphql-api/webhooks.md', http_status: 200}
+  - {url: 'https://docs.fireflies.ai/realtime-api/event-schema.md', http_status: 200}
+  - {url: 'https://api.fireflies.ai/asyncapi.yaml', http_status: 404}
+  - {url: 'https://api.fireflies.ai/asyncapi.json', http_status: 404}
+  - {url: 'https://docs.fireflies.ai/asyncapi.yaml', http_status: 404}
+  - {url: 'https://docs.fireflies.ai/asyncapi.json', http_status: 404}
+  - {url: 'https://mcp.fireflies.ai/asyncapi.yaml', http_status: 404}
+  - {url: 'https://mcp.fireflies.ai/asyncapi.json', http_status: 404}
+  - {url: 'https://docs.fireflies.ai/llms.txt', http_status: 200, result: 'zero matches for "asyncapi" across the full 120-line docs index'}

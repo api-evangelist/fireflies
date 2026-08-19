@@ -1,0 +1,124 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/getting-started/whats-new
+title: What's New
+scheme: semver
+current_version: 2.24.0
+dated: false
+date_note: >-
+  The Fireflies changelog is versioned but NOT dated — every entry carries a release label
+  (2.24.0, 2.23.0, ...) and no publication date. `date: null` on each entry below is therefore a
+  faithful record of what the provider publishes, not a gap in this harvest. Ordering is the
+  provider's own descending order.
+entry_count: 18
+entries:
+- version: 2.24.0
+  date: null
+  title: New MCP Tools
+  breaking: false
+  additions:
+  - 11 new MCP tools, bringing the server to 17 core tools plus 2 experimental
+  - MCP server gains write operations alongside read-only queries
+  - fireflies_share_meeting, fireflies_revoke_meeting_access, fireflies_update_meeting_title, fireflies_move_meeting
+  - fireflies_list_channels, fireflies_get_channel
+  - fireflies_get_soundbites, fireflies_create_soundbite
+  - fireflies_get_active_meetings, fireflies_get_analytics
+  - fireflies_get_rule_executions (Enterprise)
+- version: 2.23.0
+  date: null
+  title: Live Transcript Support
+  breaking: false
+  additions:
+  - 'Transcript.is_live boolean field'
+  behaviour_changes:
+  - 'Transcript.sentences now returns realtime captions for live meetings and processed data for completed meetings'
+- version: 2.22.0
+  date: null
+  title: Meeting Sharing API
+  breaking: false
+  additions:
+  - 'shareMeeting mutation (up to 100 recipients, optional 7/14/30 day expiry)'
+  - revokeSharedMeetingAccess mutation
+  - 'Transcript.shared_with query field'
+- version: 2.19.0
+  date: null
+  title: Channels API
+  breaking: false
+  additions: [channels query, channel query, Channel schema, ChannelMember schema]
+- version: 2.17.0
+  date: null
+  title: Authenticated Audio Downloads
+  breaking: false
+  additions:
+  - 'AudioUploadInput.download_auth for bearer-token or HTTP basic protected source media'
+  - DownloadAuthInput, BearerTokenAuthInput, BasicAuthInput, DownloadAuthType types
+  note: Provider states full backward compatibility.
+- version: 2.16.0
+  date: null
+  title: AskFred - AI Meeting Assistant
+  breaking: false
+  additions: [askfred_threads, askfred_thread, createAskFredThread, continueAskFredThread, deleteAskFredThread]
+- version: 2.15.0
+  date: null
+  title: Set Meeting Channels
+  breaking: false
+  additions: ['updateMeetingChannel mutation (1-5 transcripts, all-or-nothing semantics)']
+- version: 2.14.0
+  date: null
+  title: Active Meetings Fetching
+  breaking: false
+  additions: [active_meetings query]
+- version: 2.13.0
+  date: null
+  title: Rate Limiting for Delete Transcript
+  breaking: false
+  changes: ['deleteTranscript rate-limited to 10 requests per minute across all tiers']
+- version: 2.12.0
+  date: null
+  title: Meeting Privacy Control
+  breaking: false
+  additions: ['updateMeetingPrivacy mutation (link, owner, participants, teammatesandparticipants, teammates)']
+- version: 2.10.0
+  date: null
+  title: Meeting Attendance Tracking
+  breaking: false
+  additions: ['Transcript.meeting_attendance field', MeetingAttendance schema]
+- version: 2.9.0
+  date: null
+  title: Channel Filtering
+  breaking: false
+  additions: ['transcripts query channel_id parameter']
+- version: 2.8.0
+  date: null
+  title: Array Fields for Organizers and Participants
+  breaking: false
+  additions: ['transcripts query organizers[] and participants[] array filters']
+  deprecations: [organizer_email, participant_email]
+  note: >-
+    Old single-email fields deprecated but still working. Passing both old and new fields
+    together is a validation error.
+- version: 2.7.0
+  date: null
+  title: User Groups
+  breaking: false
+  additions: [user_groups query, 'user_groups field on User and Users']
+- version: 2.6.2
+  date: null
+  title: Keyword search
+  breaking: false
+  additions: ['transcripts query keyword and scope parameters']
+  deprecations: [title]
+- version: 2.6.1
+  date: null
+  title: Upload audio
+  breaking: false
+  additions: ['uploadAudio bypass_size_check flag']
+- version: 2.6.0
+  date: null
+  title: Realtime API
+  breaking: false
+  additions: ['WebSocket live transcription (wss://api.fireflies.ai, path /ws/realtime)']
+x-evidence:
+  fetched: '2026-08-14'
+  url: https://docs.fireflies.ai/getting-started/whats-new.md
+  http_status: 200

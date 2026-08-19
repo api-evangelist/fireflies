@@ -1,17 +1,46 @@
-generated: '2026-07-11'
+generated: '2026-08-14'
 method: searched
 probe: true
-source: https://fireflies.ai/security
-url: https://fireflies.ai/security
+source: https://trust.fireflies.ai/
+url: https://trust.fireflies.ai/
+secondary_url: https://fireflies.ai/security
 certifications:
-- SOC 2
+- SOC 2 Type II
 - HIPAA
 - GDPR
+certification_detail:
+- name: SOC 2 Type II
+  source: https://fireflies.ai/security
+  note: '"Fireflies follows industry standards for data security, privacy, and confidentiality."'
+- name: HIPAA
+  source: https://fireflies.ai/security
+  note: 'HIPAA - BAA Compliant. Complete PHI protection with a Business Associate Agreement — Enterprise plan only.'
+- name: GDPR
+  source: https://fireflies.ai/security
+  note: Data protection and privacy standards aligned to European regulation.
+practices:
+- '256-bit AES encryption at rest for meeting notes and transcripts; TLS in transit'
+- 'OWASP alignment across development, staging and production, with peer-reviewed code'
+- '0-day data retention policy with all vendors and partners'
+- 'No customer meeting data used for AI model training by default'
+- 'Private storage — customer-chosen data location (Enterprise)'
+- 'Custom data retention policies (Enterprise)'
+- 'Single Sign-On (SSO) and SCIM provisioning (Enterprise)'
+- 'Rules Engine for admin control over meeting access and privacy'
+- 'Super Admin role for full workspace oversight'
+- 'Uptime logging / continuous availability tracking'
+- 'OCSF-compliant audit event log via the API (Enterprise, Beta)'
+data_governance:
+  customer_owns_data: true
+  training_on_customer_data: false
+  deletion: 'Customer can delete transcripts at any time (deleteTranscript mutation)'
+  dpa: https://fireflies.ai/dpa
 evidence:
+- source: https://trust.fireflies.ai/
+  http_status: 200
+  note: 'Dedicated trust center on its own subdomain; page title "Fireflies Trust Center". Content is JS-rendered, so certification detail below is read from https://fireflies.ai/security.'
 - source: https://fireflies.ai/security
-  keywords:
-  - soc 2
-  - soc2
-  - hipaa
-  - trust center
-  - gdpr
+  http_status: 200
+  keywords: [soc 2 type ii, hipaa, gdpr, baa, owasp, encryption, sso, bug bounty, trust page]
+x-evidence:
+  fetched: '2026-08-14'

@@ -1,0 +1,150 @@
+generated: '2026-08-14'
+method: searched
+status: published
+source: https://docs.fireflies.ai/mcp-tools/overview
+docs:
+- https://docs.fireflies.ai/getting-started/mcp-configuration
+- https://docs.fireflies.ai/mcp-tools/overview
+deployment:
+  mode: remote
+  endpoint: https://api.fireflies.ai/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    Fireflies ships a HOSTED remote MCP server an agent can POST to directly — no local
+    install required. POST tools/list to https://api.fireflies.ai/mcp returns HTTP 401
+    {"error":"invalid_token","error_description":"Missing Authorization header"}, which
+    confirms a live MCP endpoint whose tool schemas are OAuth-gated. The OAuth surface is
+    published anonymously at /.well-known/oauth-authorization-server (RFC 8414) and
+    /.well-known/oauth-protected-resource (RFC 9728), including dynamic client
+    registration. An API-key path also exists for local clients via `npx mcp-remote`
+    against the same remote URL — that is a client-side bridge to the hosted server, not
+    a separately distributed stdio package, so mode stays `remote`.
+server:
+  name: fireflies
+  transport: http
+  url: https://api.fireflies.ai/mcp
+  alternate_urls:
+  - https://mcp.fireflies.ai/mcp
+  authentication:
+    - type: oauth2
+      flow: authorization_code
+      pkce: S256
+      authorization_endpoint: https://api.fireflies.ai/authorize
+      token_endpoint: https://api.fireflies.ai/token
+      registration_endpoint: https://api.fireflies.ai/register
+      scopes: [profile, email]
+    - type: api-key
+      style: Authorization Bearer
+      note: >-
+        Fireflies API key, via `npx mcp-remote <url> --header "Authorization: Bearer <key>"`.
+        This is a client-side bridge to the same hosted endpoint, not a distributed stdio server.
+  clients_documented: [Claude, Claude Desktop, OpenAI Connector, Cursor, Devin]
+tools_source: >-
+  Tool names, descriptions and parameters below are transcribed from the provider's own
+  MCP tool reference at https://docs.fireflies.ai/mcp-tools/overview. Live tools/list is
+  OAuth-gated (401 anonymously), so authoritative inputSchema JSON requires authenticated
+  introspection; parameters here are the documented ones, not machine-read schemas.
+tools:
+- name: fireflies_search
+  category: meetings
+  description: Advanced search for meeting transcripts using mini grammar syntax.
+  experimental: true
+  parameters: [query, format]
+- name: fireflies_get_transcripts
+  category: meetings
+  description: Query multiple meetings with structured filters. Returns metadata and summaries.
+  parameters: [keyword, scope, fromDate, toDate, limit, skip, organizers, participants, mine, format]
+- name: fireflies_get_transcript
+  category: meetings
+  description: Fetch detailed transcript by ID with sentences, speakers, and timestamps.
+  parameters: [transcriptId]
+- name: fireflies_fetch
+  category: meetings
+  description: Retrieve complete meeting data including transcript, summary, and metadata.
+  experimental: true
+  parameters: [id]
+- name: fireflies_get_summary
+  category: meetings
+  description: Fetch meeting summary by ID with action items, keywords, and overview.
+  parameters: [transcriptId]
+- name: fireflies_get_active_meetings
+  category: meetings
+  description: Retrieves a list of currently active (in-progress) meetings.
+  parameters: [email, states]
+- name: fireflies_get_analytics
+  category: analytics
+  description: Retrieves team and per-user meeting and conversation analytics.
+  parameters: [startTime, endTime]
+- name: fireflies_share_meeting
+  category: meeting-management
+  description: Shares a meeting transcript with specified email addresses (max 100).
+  parameters: [meetingId, emails, expiryDays]
+- name: fireflies_revoke_meeting_access
+  category: meeting-management
+  description: Revokes a previously shared meeting access for a specific email address.
+  parameters: [meetingId, email]
+- name: fireflies_update_meeting_title
+  category: meeting-management
+  description: Updates the title of a meeting transcript (5-256 characters).
+  parameters: [meetingId, title]
+- name: fireflies_move_meeting
+  category: meeting-management
+  description: Moves one or more meeting transcripts to a channel/folder (max 5).
+  parameters: [meetingIds, channelId]
+- name: fireflies_list_channels
+  category: channels
+  description: Lists all channels/folders available to the authenticated user.
+  parameters: []
+- name: fireflies_get_channel
+  category: channels
+  description: Retrieves details of a specific channel/folder by its ID.
+  parameters: [channelId]
+- name: fireflies_get_soundbites
+  category: soundbites
+  description: Fetches soundbites (short shareable clips from meetings).
+  parameters: [transcript_id, mine, my_team, limit, skip, format]
+- name: fireflies_create_soundbite
+  category: soundbites
+  description: Creates a soundbite (clip) from a meeting transcript.
+  parameters: [transcriptId, startTime, endTime, name, mediaType, privacies, summary]
+- name: fireflies_get_user
+  category: users
+  description: Fetch user account details. Returns authenticated user if no ID provided.
+  parameters: [userId]
+- name: fireflies_get_usergroups
+  category: users
+  description: Fetch user groups for the authenticated user or team.
+  parameters: [mine]
+- name: fireflies_get_user_contacts
+  category: users
+  description: Fetch contact list sorted by most recent meeting date.
+  parameters: [format]
+- name: fireflies_get_rule_executions
+  category: automation
+  description: Retrieves rule execution logs grouped by meeting. Requires Enterprise tier.
+  parameters: [ruleId, meetingId, dateFrom, dateTo, limit, cursor]
+response_formats:
+  parameter: format
+  values:
+  - {value: toon, default: true, description: Token-efficient format optimized for AI model consumption}
+  - {value: json, description: Standard JSON format for programmatic processing}
+  - {value: text, description: Human-readable text format for display}
+related_servers:
+- name: fireflies-docs
+  purpose: Documentation MCP server (Mintlify-hosted) over the Fireflies docs corpus
+  url: https://docs.fireflies.ai/mcp
+  transport: http
+  auth: none
+  verified: probed
+  tools_list_http_status: 200
+  tools: [search_fireflies, query_docs_filesystem_fireflies, submit_feedback]
+  file: fireflies-docs-mcp-tools.json
+  docs: https://docs.fireflies.ai/getting-started/docs-mcp-server
+x-evidence:
+  fetched: '2026-08-14'
+  probes:
+  - {url: 'https://api.fireflies.ai/mcp', method: 'POST tools/list', http_status: 401, body: 'invalid_token / Missing Authorization header'}
+  - {url: 'https://mcp.fireflies.ai/mcp', method: 'POST tools/list', http_status: 401, body: 'invalid_token / Missing Authorization header'}
+  - {url: 'https://docs.fireflies.ai/mcp', method: 'POST tools/list', http_status: 200, body: '3 tools returned with inputSchema'}
+  - {url: 'https://api.fireflies.ai/.well-known/oauth-protected-resource', http_status: 200}

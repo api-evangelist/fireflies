@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Fireflies GraphQL AI Apps API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a GraphQL operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.fireflies.ai/graphql/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

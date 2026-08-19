@@ -1,0 +1,54 @@
+generated: '2026-08-14'
+method: probed
+source: https://docs.fireflies.ai/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: docs.fireflies.ai
+  note: >-
+    Probed on every Fireflies host. Only docs.fireflies.ai serves an agent card.
+    api.fireflies.ai, mcp.fireflies.ai and fireflies.ai all returned 404 on both
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json. The card
+    describes the Fireflies documentation surface, not the GraphQL API itself, and
+    its one skill points at a published Agent Skill markdown file (see skills/).
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '0.3'
+  preferred_transport: HTTP+JSON
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  deviations:
+  - supportedInterfaces-instead-of-additionalInterfaces
+card:
+  name: Fireflies
+  url: https://docs.fireflies.ai/
+  version: 1.0.0
+  organization: Fireflies
+  documentation_url: https://docs.fireflies.ai/
+  skills: 1
+  skill_ids:
+  - firefliesai
+  capabilities:
+    streaming: false
+    pushNotifications: false
+  default_input_modes:
+  - text/plain
+  default_output_modes:
+  - text/plain
+  file: fireflies-agent-card.json
+x-evidence:
+  fetched: '2026-08-14'
+  url: https://docs.fireflies.ai/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  misses:
+  - {url: 'https://api.fireflies.ai/.well-known/agent-card.json', http_status: 404}
+  - {url: 'https://api.fireflies.ai/.well-known/agent.json', http_status: 404}
+  - {url: 'https://mcp.fireflies.ai/.well-known/agent-card.json', http_status: 404}
+  - {url: 'https://mcp.fireflies.ai/.well-known/agent.json', http_status: 404}
+  - {url: 'https://fireflies.ai/.well-known/agent-card.json', http_status: 404}
+  - {url: 'https://fireflies.ai/.well-known/agent.json', http_status: 404}
+  - {url: 'https://docs.fireflies.ai/.well-known/agent.json', http_status: 404}

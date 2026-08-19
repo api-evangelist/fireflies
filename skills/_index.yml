@@ -1,0 +1,56 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/.well-known/agent-skills/firefliesai/skill.md
+description: >-
+  Packaged Agent Skills for the Fireflies API. One is published by Fireflies itself and saved
+  verbatim; the other four are API Evangelist skills grounded in real GraphQL operation names
+  verified against https://docs.fireflies.ai/graphql-api/, one per marquee flow.
+skills:
+- file: fireflies-firefliesai-provider-skill.md
+  name: Firefliesai
+  origin: provider-published
+  method: searched
+  source: https://docs.fireflies.ai/.well-known/agent-skills/firefliesai/skill.md
+  http_status: 200
+  api: https://api.fireflies.ai/graphql
+  referenced_by: a2a/fireflies-agent-card.json
+  description: >-
+    Fireflies' own Agent Skill, saved verbatim. Covers auth, endpoint, rate limits, upload limits
+    and MCP configuration. It is the skill the provider's A2A agent card points at.
+- file: fireflies-fetch-meeting-intelligence.md
+  name: Fetch Fireflies meeting intelligence
+  origin: api-evangelist
+  method: generated
+  api: https://api.fireflies.ai/graphql
+  operations: [transcripts, transcript, contacts, user]
+  mcp_tools: [fireflies_get_transcripts, fireflies_get_transcript, fireflies_get_summary, fireflies_get_user_contacts]
+  description: The read path — find the right meetings, then pull transcripts, summaries and action items.
+- file: fireflies-upload-and-await-transcription.md
+  name: Upload audio to Fireflies and await transcription
+  origin: api-evangelist
+  method: generated
+  api: https://api.fireflies.ai/graphql
+  operations: [uploadAudio, transcript]
+  description: >-
+    Submit media for transcription and receive the completion event, including HMAC signature
+    verification and the correlation id that ties an event back to the upload.
+- file: fireflies-record-and-stream-a-live-meeting.md
+  name: Record and stream a live Fireflies meeting
+  origin: api-evangelist
+  method: generated
+  api: https://api.fireflies.ai/graphql
+  operations: [addToLiveMeeting, active_meetings, updateMeetingState, createLiveActionItem, createLiveSoundbite, live_action_items]
+  description: Dispatch the bot into a call in progress and consume live transcription over Socket.IO.
+- file: fireflies-share-and-organize-meetings.md
+  name: Share and organize Fireflies meetings
+  origin: api-evangelist
+  method: generated
+  api: https://api.fireflies.ai/graphql
+  operations: [shareMeeting, revokeSharedMeetingAccess, updateMeetingTitle, updateMeetingChannel, channels, channel, transcripts]
+  mcp_tools: [fireflies_share_meeting, fireflies_revoke_meeting_access, fireflies_update_meeting_title, fireflies_move_meeting, fireflies_list_channels, fireflies_get_channel]
+  description: The write path an agent is permitted to take, with the ownership and rate-limit rules on each.
+grounding_note: >-
+  Every operationId referenced in these skills was verified against the provider's own reference
+  pages under https://docs.fireflies.ai/graphql-api/ before being written. None was inferred from
+  the local graphql/fireflies-schema.graphql, whose type names diverge from the documentation in
+  places (see data-model/fireflies-data-model.yml).

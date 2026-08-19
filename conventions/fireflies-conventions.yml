@@ -1,0 +1,109 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/fundamentals/concepts
+docs:
+- https://docs.fireflies.ai/fundamentals/concepts
+- https://docs.fireflies.ai/fundamentals/authorization
+- https://docs.fireflies.ai/fundamentals/errors
+- https://docs.fireflies.ai/fundamentals/limits
+- https://docs.fireflies.ai/fundamentals/introspection
+description: >-
+  Cross-cutting request/response semantics for the Fireflies API. Fireflies is a single-endpoint
+  GraphQL API (POST https://api.fireflies.ai/graphql) plus a hosted MCP server and a Socket.IO
+  realtime stream. Several conventions a REST-shaped agent expects — path versioning, status-code
+  error signalling, rate-limit response headers, idempotency keys — do NOT exist here, and that
+  absence is recorded deliberately rather than left blank.
+transport:
+  style: graphql
+  endpoint: https://api.fireflies.ai/graphql
+  method: POST
+  content_type: application/json
+  body: '{ query, variables }'
+  note: One endpoint for every operation. There is no resource-per-path REST surface.
+authentication:
+  style: bearer-api-key
+  header: Authorization
+  format: 'Bearer <api_key>'
+  issuance: app.fireflies.ai -> Integrations -> Fireflies API
+  oauth:
+    supported: true
+    scope: MCP server only (https://api.fireflies.ai/mcp)
+    discovery: /.well-known/oauth-authorization-server
+  cross_ref: authentication/fireflies-authentication.yml
+idempotency:
+  supported: false
+  key_header: null
+  note: >-
+    Fireflies publishes NO idempotency-key contract. Retrying a mutation such as createBite or
+    shareMeeting will re-execute it. The closest thing is `client_reference_id` on
+    AudioUploadInput, which is a caller-supplied correlation id echoed back on webhook payloads
+    — it lets you MATCH an upload to its event, but it does not deduplicate a repeated request
+    server-side. All-or-nothing batch semantics exist on updateMeetingChannel (1-5 transcripts),
+    which is atomicity, not idempotency. Do not treat either as a retry-safety guarantee.
+  correlation_id:
+    field: client_reference_id
+    set_on: AudioUploadInput
+    echoed_on: 'webhook payload (V1 clientReferenceId, V2 client_reference_id)'
+pagination:
+  style: offset
+  params:
+  - {name: limit, type: Int, note: 'Max 50 on transcripts, bites and the MCP tool equivalents'}
+  - {name: skip, type: Int, note: Offset of records to skip}
+  cursor_exception:
+    field: rule_executions_by_meeting
+    params: [cursor, limit]
+    note: 'Rule executions are cursor-paginated (default limit 10, max 50) — the only cursor surface.'
+  response_fields: 'None. Result arrays carry no total, next-page or has-more field; exhaustion is inferred from a short page.'
+field_selection:
+  style: graphql-selection-set
+  note: >-
+    GraphQL selection sets replace REST sparse-fieldsets/expansion. Fireflies' own guidance is to
+    request only necessary fields. Behavioural note: `sentences` on Transcript returns realtime
+    captions when is_live is true and processed transcript data otherwise — the same field name
+    returns different data depending on meeting state.
+  mcp_equivalent:
+    param: format
+    values: [toon, json, text]
+    default: toon
+    note: 'MCP tools substitute a response-shape parameter for a selection set; toon is a token-efficient encoding for model consumption.'
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation header is documented on API responses.
+versioning:
+  scheme: none-in-transport
+  note: >-
+    No version in the URL, no version header, no date-pinning. The endpoint is unversioned and
+    evolves additively in GraphQL fashion. Release numbers (2.24.0, 2.23.0, ...) appear only in
+    the What's New changelog and cannot be requested by a client.
+  cross_ref: lifecycle/fireflies-lifecycle.yml
+errors:
+  envelope: 'errors[] with message, code, friendly, extensions'
+  rfc9457: false
+  status_source: extensions.status
+  note: HTTP status is not the error signal; parse the envelope.
+  cross_ref: errors/fireflies-error-codes.yml
+rate_limiting:
+  response_headers: []
+  header_note: >-
+    Fireflies publishes NO rate-limit response headers — no X-RateLimit-*, no RateLimit-*, no
+    Retry-After. The only runtime signal is the too_many_requests error code carrying
+    extensions.metadata.retryAfter as an epoch-millisecond timestamp. An agent must read the
+    error body to back off correctly.
+  exhaustion_code: too_many_requests
+  exhaustion_status: 429
+  cross_ref: rate-limits/fireflies-rate-limits.yml
+webhooks:
+  signature_header: X-Hub-Signature
+  signature_format: 'sha256=<hex-encoded HMAC-SHA256 of the raw body>'
+  ack_requirement: '2xx within 10 seconds'
+  cross_ref: asyncapi/fireflies-webhooks.yml
+introspection:
+  supported: true
+  gated: true
+  note: >-
+    GraphQL introspection works but requires an API key — anonymous introspection returns
+    auth_failed. Fireflies documents Apollo Sandbox (served at the endpoint itself) and Postman
+    as the exploration paths.
+  docs: https://docs.fireflies.ai/fundamentals/introspection
+x-evidence:
+  fetched: '2026-08-14'

@@ -1,3 +1,19 @@
+generated: '2026-08-14'
+method: searched
+source: https://fireflies.ai/pricing
+plan_count: 4
+pricing_note: >-
+  Prices re-verified against https://fireflies.ai/pricing on 2026-08-14 (HTTP 200): Free $0,
+  Pro $18 monthly / $10 annual, Business $29 monthly / $19 annual, Enterprise $39 annual-only,
+  all per seat per month. API access is a listed feature on every tier including Free — the
+  differentiator is the rate limit, not the entitlement. See rate-limits/ for the per-tier caps
+  and fundamentals/limits for the upload ceilings.
+ai_credits:
+  Free: 20
+  Pro: 20
+  Business: 30
+  Enterprise: 50
+  note: AI credits gate AskFred and other AI operations; exhaustion returns require_ai_credits.
 name: Fireflies.ai Plans & Pricing
 description: Pricing tiers for Fireflies.ai AI meeting assistant with API access details
 version: '0.1'
@@ -19,9 +35,12 @@ plans:
       - Mobile and desktop apps
       - 100+ language support
     api:
-      access: false
+      access: true
       rateLimits: 50 requests/day
-      notes: API key available but limited to 50 requests per day
+      notes: >-
+        API access is listed as a Free-tier feature on the pricing page and the limits page
+        assigns Free 50 requests/day. uploadAudio, however, is gated to Pro or higher and
+        returns paid_required on Free.
   - name: Pro
     description: Professional plan for individuals with expanded storage and download capabilities
     price:

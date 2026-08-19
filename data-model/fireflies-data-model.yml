@@ -1,0 +1,206 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/schema/transcript
+docs: https://docs.fireflies.ai/schema/transcript
+description: >-
+  Entity-relationship graph for the Fireflies data core, read from the provider's own GraphQL
+  schema reference pages under https://docs.fireflies.ai/schema/. Derived from the DOCUMENTED
+  types rather than from openapi/, because the OpenAPI files in this repo describe the single
+  GraphQL transport operation and carry no domain schemas.
+root_entity: Transcript
+identifier_note: >-
+  Fireflies uses opaque string ids with no type prefix, and treats meeting id and transcript id as
+  interchangeable — the MCP tools call the same value `meetingId` while the GraphQL API calls it
+  `transcript_id`. An agent must not assume the two are different resources.
+entities:
+- name: Transcript
+  aliases: [Meeting]
+  description: The primary resource — one recorded or uploaded meeting with its content, summary and analytics.
+  key: id
+  key_type: ID
+  query: transcript
+  list_query: transcripts
+  fields_of_note: [is_live, date, dateString, duration, transcript_url, audio_url, video_url, participants, fireflies_users, workspace_users, calendar_id, cal_id, calendar_type, meeting_link]
+  relationships:
+  - {type: belongs_to, target: User, via: user, cardinality: has_one}
+  - {type: has_many, target: Speaker, via: speakers}
+  - {type: has_many, target: Sentence, via: sentence, note: 'Returns realtime captions when is_live is true, processed transcript otherwise.'}
+  - {type: has_one, target: Summary, via: summary}
+  - {type: has_one, target: MeetingInfo, via: meeting_info}
+  - {type: has_one, target: MeetingAnalytics, via: analytics}
+  - {type: has_many, target: MeetingAttendee, via: meeting_attendees}
+  - {type: has_many, target: MeetingAttendance, via: meeting_attendance}
+  - {type: has_many, target: Channel, via: channels}
+  - {type: has_many, target: SharedWith, via: shared_with}
+  - {type: has_one, target: Apps, via: apps_preview}
+  - {type: has_many, target: Bite, via: 'inverse of Bite.transcript_id'}
+  - {type: has_many, target: AskFredThread, via: 'inverse of AskFredThread.transcript_id'}
+- name: Sentence
+  description: One utterance in a transcript with speaker attribution and timing.
+  key: index
+  key_type: Int
+  fields_of_note: [text, raw_text, start_time, end_time, speaker_id, speaker_name]
+  relationships:
+  - {type: belongs_to, target: Speaker, via: speaker_id}
+  - {type: has_one, target: AIFilter, via: ai_filters}
+- name: Speaker
+  description: A distinct voice identified within a meeting.
+  key: id
+  fields_of_note: [name]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: 'Transcript.speakers'}
+- name: Summary
+  description: AI-generated meeting summary.
+  key: null
+  key_note: Embedded value object on Transcript with no independent id.
+  fields_of_note: [overview, short_overview, short_summary, gist, bullet_gist, shorthand_bullet, notes, outline, action_items, keywords, meeting_type, topics_discussed, transcript_chapters]
+  relationships:
+  - {type: has_many, target: SummarySection, via: extended_sections}
+  - {type: belongs_to, target: Transcript, via: 'Transcript.summary'}
+- name: Bite
+  aliases: [Soundbite, Clip]
+  description: A shareable clip extracted from a meeting.
+  key: id
+  query: bite
+  list_query: bites
+  mutation: createBite
+  fields_of_note: [start_time, end_time, name, summary, status, summary_status, media_type, privacies, thumbnail, preview, created_at]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: transcript_id}
+  - {type: belongs_to, target: BiteUser, via: user, note: 'Also carries a raw userId string.'}
+  - {type: has_many, target: BiteCaption, via: captions}
+  - {type: has_many, target: MediaSource, via: sources}
+  - {type: has_one, target: BiteOrigin, via: created_from}
+- name: Channel
+  aliases: [Folder]
+  description: A workspace grouping meetings belong to.
+  key: id
+  key_type: ID
+  query: channel
+  list_query: channels
+  mutation: updateMeetingChannel
+  fields_of_note: [title, is_private, created_by, created_at, updated_at]
+  relationships:
+  - {type: has_many, target: ChannelMember, via: members}
+  - {type: has_many, target: Transcript, via: 'inverse of Transcript.channels'}
+- name: ChannelMember
+  key: user_id
+  fields_of_note: [email, name]
+  relationships:
+  - {type: belongs_to, target: User, via: user_id}
+  - {type: belongs_to, target: Channel, via: 'Channel.members'}
+- name: User
+  description: A Fireflies account.
+  key: user_id
+  query: user
+  list_query: users
+  mutation: setUserRole
+  fields_of_note: [email, name, num_transcripts, minutes_consumed, is_admin, integrations, is_calendar_in_sync, recent_transcript, recent_meeting]
+  relationships:
+  - {type: has_many, target: UserGroup, via: user_groups}
+  - {type: has_many, target: Transcript, via: 'inverse of Transcript.user'}
+  - {type: belongs_to, target: Transcript, via: recent_transcript, note: 'Denormalized id reference to the most recent transcript.'}
+- name: UserGroup
+  documented_as: UserGroups
+  key: id
+  list_query: user_groups
+  fields_of_note: [name, handle]
+  relationships:
+  - {type: has_many, target: UserGroupMember, via: members}
+- name: UserGroupMember
+  key: user_id
+  fields_of_note: [first_name, last_name, email]
+  relationships:
+  - {type: belongs_to, target: User, via: user_id}
+- name: Contact
+  description: A person the account has met with, sorted by most recent meeting.
+  key: email
+  list_query: contacts
+  fields_of_note: [name, picture, last_meeting_date]
+  relationships:
+  - {type: belongs_to, target: User, via: 'implicit — scoped to the authenticated user'}
+- name: MeetingAttendee
+  key: email
+  fields_of_note: [displayName, name, phoneNumber, location]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: 'Transcript.meeting_attendees'}
+- name: MeetingAttendance
+  description: Join/leave records per participant.
+  key: null
+  relationships:
+  - {type: belongs_to, target: Transcript, via: 'Transcript.meeting_attendance'}
+- name: SharedWith
+  description: A recipient a transcript has been shared with.
+  key: email
+  fields_of_note: [name, photo_url, expires_at]
+  mutations: [shareMeeting, revokeSharedMeetingAccess]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: 'Transcript.shared_with'}
+- name: ActiveMeeting
+  description: A meeting currently in progress.
+  key: id
+  list_query: active_meetings
+  fields_of_note: [title, organizer_email, meeting_link, start_time, end_time, privacy, state]
+  mutations: [addToLiveMeeting, updateMeetingState, createLiveActionItem, createLiveSoundbite]
+  relationships:
+  - {type: has_one, target: Transcript, via: 'id — becomes the transcript id once processed'}
+- name: AskFredThread
+  description: An AI conversation thread over meeting content.
+  key: id
+  query: askfred_thread
+  list_query: askfred_threads
+  mutations: [createAskFredThread, continueAskFredThread, deleteAskFredThread]
+  fields_of_note: [title, created_at]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: transcript_id, note: 'Optional — a thread may span multiple meetings.'}
+  - {type: belongs_to, target: User, via: user_id}
+  - {type: has_many, target: AskFredMessage, via: messages}
+- name: AskFredMessage
+  key: id
+  fields_of_note: [query, answer, suggested_queries, status, created_at, updated_at]
+  status_values: [processing, completed, failed]
+  relationships:
+  - {type: belongs_to, target: AskFredThread, via: thread_id}
+- name: AppOutput
+  description: Output of an AI App run against a transcript.
+  key: null
+  list_query: apps
+  fields_of_note: [app_id, title, prompt, response, created_at]
+  relationships:
+  - {type: belongs_to, target: Transcript, via: transcript_id}
+  - {type: belongs_to, target: User, via: user_id}
+- name: Analytics
+  description: Team and per-user conversation/meeting metrics.
+  key: null
+  list_query: analytics
+  relationships:
+  - {type: has_one, target: TeamAnalytics, via: team}
+  - {type: has_many, target: UserAnalytics, via: users}
+- name: MeetingAnalytics
+  description: Per-transcript conversation metrics (sentiment, talk ratios, filler words, monologues).
+  key: null
+  relationships:
+  - {type: belongs_to, target: Transcript, via: 'Transcript.analytics'}
+- name: AuditEvent
+  description: OCSF-compliant audit record (Enterprise, Beta).
+  key: id
+  list_query: auditEvents
+  fields_of_note: [time, category, action, severity, status, message, class_uid, activity_id, type_uid, metadata]
+  relationships:
+  - {type: has_one, target: AuditEventActor, via: actor}
+  - {type: has_one, target: AuditEventResource, via: resource}
+counts:
+  entities: 21
+  relationships: 39
+naming_divergence:
+  note: >-
+    Three vocabularies name the same objects differently and an agent crossing surfaces must
+    translate. MCP says "soundbite", GraphQL says "bite". MCP says "meetingId", GraphQL says
+    "transcript_id". The docs schema page is titled "UserGroups" while the field type is
+    UserGroup. The local graphql/fireflies-schema.graphql additionally uses AIAppOutput and
+    AskFredThreadResult where the docs use AppOutput and AskFredResponse — the documentation
+    pages above are the authority for this artifact.
+x-evidence:
+  fetched: '2026-08-14'
+  sources_probed: 19
+  base: https://docs.fireflies.ai/schema/

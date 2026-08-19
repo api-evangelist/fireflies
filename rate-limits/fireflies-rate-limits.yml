@@ -1,7 +1,27 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/fundamentals/limits
+docs:
+- https://docs.fireflies.ai/fundamentals/limits
+- https://docs.fireflies.ai/graphql-api/mutation/delete-transcript
+- https://docs.fireflies.ai/graphql-api/mutation/add-to-live
+limit_count: 7
+response_headers: []
+response_headers_note: >-
+  Fireflies publishes NO rate-limit response headers — no X-RateLimit-Limit/Remaining/Reset, no
+  RateLimit-* (RFC 9239 draft), no Retry-After. The ONLY runtime signal is the too_many_requests
+  error code inside the GraphQL errors[] array, carrying extensions.metadata.retryAfter as an
+  epoch-millisecond timestamp and extensions.status 429. An agent cannot discover remaining quota
+  before exhausting it; it must budget from the plan tier and back off on the error body.
+exhaustion:
+  error_code: too_many_requests
+  status: 429
+  retry_signal: extensions.metadata.retryAfter
+  retry_signal_format: epoch milliseconds
 name: Fireflies.ai Rate Limits
 description: API rate limits and file size constraints for the Fireflies.ai GraphQL API
 version: '0.1'
-url: https://docs.fireflies.ai/getting-started/rate-limits
+url: https://docs.fireflies.ai/fundamentals/limits
 endpoint: https://api.fireflies.ai/graphql
 authentication:
   type: Bearer Token

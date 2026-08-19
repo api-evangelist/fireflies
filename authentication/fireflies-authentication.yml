@@ -1,14 +1,105 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/fireflies-graphql-api-openapi.yml
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/fundamentals/authorization
+docs:
+- https://docs.fireflies.ai/fundamentals/authorization
+- https://docs.fireflies.ai/getting-started/mcp-configuration
+description: >-
+  Fireflies runs TWO distinct authentication models on the same product, and conflating them is
+  the common integration mistake. The GraphQL API is a long-lived bearer API key with no OAuth and
+  no scopes. The hosted MCP server is a full OAuth 2.0 authorization server with PKCE, dynamic
+  client registration and revocation — but only two identity scopes. Upgraded from the previous
+  derived profile, which saw only the OpenAPI BearerAuth scheme.
 summary:
-  types:
-  - http
+  types: [http, oauth2]
+  api_key_in: [header]
+  oauth2_flows: [authorizationCode]
+  oauth2_scope_count: 2
+  mfa_or_sso: 'SSO + SCIM on the Enterprise plan (product-level, not API-level)'
 schemes:
 - name: BearerAuth
   type: http
   scheme: bearer
-  description: Obtain an API key from the Fireflies dashboard under Settings > Integrations
-    > API. Pass the key as a Bearer token in the Authorization header.
+  applies_to:
+  - https://api.fireflies.ai/graphql
+  - 'wss://api.fireflies.ai (path /ws/realtime, passed as the Socket.IO auth.token parameter)'
+  - 'https://api.fireflies.ai/mcp (alternative to OAuth, via npx mcp-remote --header)'
+  header: Authorization
+  format: 'Bearer <api_key>'
+  issuance:
+    url: https://app.fireflies.ai/integrations/custom/fireflies
+    steps:
+    - Log in at https://app.fireflies.ai
+    - Navigate to Integrations
+    - Open Fireflies API
+    - Copy and store the API key securely
+  rotation: 'Not documented. No published expiry, no programmatic rotation or revocation endpoint for API keys.'
+  key_format: 'Not documented — no published prefix or length.'
+  failure:
+    code: auth_failed
+    http_status: 500
+    note: >-
+      Observed live: POSTing to https://api.fireflies.ai/graphql with no Authorization header
+      returns HTTP 500 carrying code auth_failed, not a 401. Do not branch on the transport status.
   sources:
-  - openapi/fireflies-graphql-api-openapi.yml
+  - https://docs.fireflies.ai/fundamentals/authorization
+  - openapi/fireflies-transcripts-api-openapi.yml
+- name: FirefliesMCPOAuth
+  type: oauth2
+  applies_to:
+  - https://api.fireflies.ai/mcp
+  - https://mcp.fireflies.ai/mcp
+  discovery:
+    authorization_server_metadata: /.well-known/oauth-authorization-server
+    protected_resource_metadata: /.well-known/oauth-protected-resource
+    specs: [RFC 8414, RFC 9728]
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.fireflies.ai/authorize
+    tokenUrl: https://api.fireflies.ai/token
+    revocationUrl: https://api.fireflies.ai/revoke
+    registrationUrl: https://api.fireflies.ai/register
+    grant_types: [authorization_code, refresh_token]
+    pkce: [S256]
+    token_endpoint_auth_methods: [client_secret_post, none]
+    dynamic_client_registration: true
+    scopes:
+      profile: Basic Fireflies user profile
+      email: Fireflies account email address
+  failure:
+    code: invalid_token
+    http_status: 401
+    note: 'Observed live: POST tools/list with no Authorization header returns 401 invalid_token / Missing Authorization header.'
+  sources:
+  - well-known/fireflies-api-oauth-authorization-server.json
+  - well-known/fireflies-mcp-oauth-authorization-server.json
+authorization_model:
+  note: >-
+    Authorization is NOT expressed in the token. The two OAuth scopes are identity scopes only —
+    there is no read/write split and no per-resource scope. What a caller may do is decided
+    downstream by (a) plan tier and (b) meeting ownership or team-admin role.
+  tier_gates:
+  - {capability: 'uploadAudio', requires: 'Pro or higher', error: paid_required}
+  - {capability: 'AskFred / AI operations', requires: 'sufficient AI credits', error: require_ai_credits}
+  - {capability: 'rule_executions_by_meeting', requires: Enterprise, error: forbidden}
+  - {capability: 'auditEvents', requires: Enterprise, error: forbidden}
+  - {capability: 'team-wide webhooks', requires: 'Enterprise + Super Admin role'}
+  role_gates:
+  - {capability: 'shareMeeting, revokeSharedMeetingAccess, updateMeetingTitle, updateMeetingChannel, updateMeetingPrivacy', requires: 'meeting owner or team admin', error: forbidden}
+  - {capability: 'setUserRole, team-level analytics', requires: admin, error: require_elevated_privilege}
+  - {capability: 'querying users outside your team', requires: same team, error: not_in_team}
+  super_admin:
+    docs: https://docs.fireflies.ai/fundamentals/super-admin
+    note: Enterprise role granting full workspace meeting access and team-wide webhooks.
+security_practices:
+  documented:
+  - Treat the API key like a password; never expose it in client-side code
+  - Store in environment variables or secure storage
+  cross_ref: security/fireflies-domain-security.yml
+x-evidence:
+  fetched: '2026-08-14'
+  probes:
+  - {url: 'https://docs.fireflies.ai/fundamentals/authorization.md', http_status: 200}
+  - {url: 'https://api.fireflies.ai/graphql', http_status: 500, body: auth_failed}
+  - {url: 'https://api.fireflies.ai/mcp', http_status: 401, body: invalid_token}
+  - {url: 'https://api.fireflies.ai/.well-known/oauth-authorization-server', http_status: 200}

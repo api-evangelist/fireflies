@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Fireflies GraphQL AI Apps Users API
+  version: 1.0.0
+extends: openapi/fireflies-users-api-openapi.yml
+x-generated: '2026-08-14'
+x-method: generated
+x-source: openapi/fireflies-users-api-openapi.yml
+actions:
+- target: $.info
+  description: Record the API Evangelist enrichment context for this contract.
+  update:
+    x-apievangelist-slug: fireflies
+    x-apievangelist-artifacts:
+      authentication: authentication/fireflies-authentication.yml
+      conventions: conventions/fireflies-conventions.yml
+      errors: errors/fireflies-error-codes.yml
+      lifecycle: lifecycle/fireflies-lifecycle.yml
+      rate_limits: rate-limits/fireflies-rate-limits.yml
+      data_model: data-model/fireflies-data-model.yml
+      mcp: mcp/fireflies-mcp.yml
+      tool_crosswalk: mcp/fireflies-tool-crosswalk.yml
+      webhooks: asyncapi/fireflies-webhooks.yml
+      agent_card: a2a/fireflies-a2a.yml
+    x-apievangelist-note: >-
+      This OpenAPI is an API Evangelist wrapper over the single Fireflies GraphQL transport
+      operation, not a provider-published contract. Fireflies publishes no OpenAPI; the machine-
+      readable contract is the GraphQL schema at https://api.fireflies.ai/graphql, whose
+      introspection is API-key gated.
+- target: $.servers
+  description: Record that the GraphQL transport is a single POST endpoint.
+  update:
+  - url: https://api.fireflies.ai/graphql
+    description: Fireflies GraphQL API endpoint
+    x-transport: graphql
+- target: $.paths['/'].post
+  description: Cross-link runtime semantics an agent needs before calling this operation.
+  update:
+    x-agentic-access-ref: agentic-access/fireflies-agentic-access.yml
+    x-error-catalog: errors/fireflies-error-codes.yml
+    x-rate-limit-signal: >-
+      No X-RateLimit-* or Retry-After response headers. Backoff is signalled only inside the
+      too_many_requests error body via extensions.metadata.retryAfter (epoch milliseconds).
+    x-idempotency: >-
+      Not supported. Fireflies publishes no idempotency-key contract; client_reference_id on
+      AudioUploadInput is correlation only and does not deduplicate a repeated request.
+    x-graphql-tag: Users

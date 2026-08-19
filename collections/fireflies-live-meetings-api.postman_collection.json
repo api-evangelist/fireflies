@@ -1,0 +1,285 @@
+{
+  "item": [
+    {
+      "id": "1fa092f0-82f4-4e21-bf27-aa3390074740",
+      "name": "Live Meetings",
+      "description": {
+        "content": "Add Fireflies bot to live meetings",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "308ac514-5de7-4035-b33f-43622a915222",
+          "name": "Execute a GraphQL operation",
+          "request": {
+            "name": "Execute a GraphQL operation",
+            "description": {
+              "content": "All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"operationName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e83628bb-5865-4c91-b076-40b429626236",
+              "name": "GraphQL response (errors may still be present in the response body)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 7965,\n    \"key_1\": 5695,\n    \"key_2\": 7401.91362470987\n  },\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"code\": \"string\",\n      \"friendly\": true,\n      \"extensions\": {\n        \"code\": \"string\"\n      }\n    },\n    {\n      \"message\": \"string\",\n      \"code\": \"string\",\n      \"friendly\": false,\n      \"extensions\": {\n        \"code\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77869336-4536-4cd3-af8a-90575a35ae57",
+              "name": "Authentication failed — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"friendly\": true,\n      \"code\": \"auth_failed\",\n      \"message\": \"An error occurred while authenticating your request. Please recheck your API key and try again.\",\n      \"extensions\": {\n        \"code\": \"auth_failed\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "145706d4-bdd1-4535-a930-48b907d9cd54",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0197e507-ac3a-4e8a-8bbd-7397836c29a5",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.fireflies.ai/graphql",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "17bbe306-70e6-4c2a-a5f1-d7a5e58b2e62",
+    "name": "Fireflies GraphQL AI Apps Live Meetings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.\n\n\nContact Support:\n Name: Fireflies.ai Support",
+      "type": "text/plain"
+    }
+  }
+}

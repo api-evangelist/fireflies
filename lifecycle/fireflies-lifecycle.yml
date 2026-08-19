@@ -1,0 +1,85 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/getting-started/whats-new
+versioning:
+  scheme: none-in-transport
+  current: 2.24.0
+  docs: https://docs.fireflies.ai/getting-started/whats-new
+  note: >-
+    Release numbers are published in the What's New changelog only. There is no version segment
+    in the URL, no version header and no date-pinning, so a client cannot request an older
+    version of the API. Change is additive GraphQL evolution.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    Fireflies publishes NO formal deprecation or sunset policy, and no RFC 8594 Sunset/Deprecation
+    header support is documented. The one live migration — Webhooks V1 to V2 — is handled as a
+    recommendation with no end date: the docs state "Webhooks V1 continues to work. However, V2
+    offers granular event subscriptions, so we recommend migrating when convenient." That is
+    migration guidance, not a deprecation policy, so no Deprecation pointer is emitted.
+  migrations:
+  - from: Webhooks V1
+    to: Webhooks V2
+    status: recommended
+    sunset_date: null
+    docs: https://docs.fireflies.ai/graphql-api/webhooks-v2
+status_page:
+  url: https://status.fireflies.ai/
+  http_status: 200
+  probed: '2026-08-14'
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA or uptime target found. The security page advertises "Uptime Logging —
+    continuous availability tracking" as a feature but names no committed target.
+support:
+  help_center: https://guide.fireflies.ai/hc/en-us
+  developer_program: https://docs.fireflies.ai/getting-started/developer-program
+beta_surfaces:
+- surface: Realtime API
+  status: beta
+  docs: https://docs.fireflies.ai/realtime-api/overview
+  note: 'Provider states "currently in beta. Features and endpoints may change."'
+- surface: Audit Events query
+  status: beta
+  docs: https://docs.fireflies.ai/graphql-api/query/audit-events
+  note: OCSF-compliant audit events, labelled Beta in the docs navigation.
+- surface: 'MCP tools fireflies_search, fireflies_fetch'
+  status: experimental
+  docs: https://docs.fireflies.ai/mcp-tools/overview
+  note: 'Provider states these "may not be available to all users… may require feature flag enablement."'
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/ or in the GraphQL reference carries a deprecated flag. Deprecation at
+  Fireflies happens at FIELD level and is announced only in the changelog.
+deprecated_fields:
+- field: organizer_email
+  on: transcripts query
+  superseded_by: organizers
+  announced_in: 2.24.0 changelog entry 2.8.0
+  removal_date: null
+  note: Still functional. Passing the deprecated field together with its replacement is a validation error.
+- field: participant_email
+  on: transcripts query
+  superseded_by: participants
+  announced_in: 2.8.0
+  removal_date: null
+  note: Still functional. Passing the deprecated field together with its replacement is a validation error.
+- field: title
+  on: transcripts query
+  superseded_by: keyword
+  announced_in: 2.6.2
+  removal_date: null
+  note: Still functional.
+deprecated_fields_note: >-
+  Three deprecated query arguments are announced in the changelog with no removal date and no
+  Sunset header, so a client has no machine-readable signal that they are going away.
+x-evidence:
+  fetched: '2026-08-14'
+  probes:
+  - {url: 'https://status.fireflies.ai/', http_status: 200}
+  - {url: 'https://docs.fireflies.ai/getting-started/whats-new.md', http_status: 200}
+  - {url: 'https://fireflies.ai/roadmap', http_status: 404}

@@ -1,0 +1,150 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.fireflies.ai/miscellaneous/error-codes
+docs:
+- https://docs.fireflies.ai/fundamentals/errors
+- https://docs.fireflies.ai/miscellaneous/error-codes
+format: graphql-errors
+rfc9457: false
+description: >-
+  Fireflies is a GraphQL API, so errors do NOT use RFC 9457 application/problem+json and the
+  HTTP status is not the error signal — a failed call commonly still returns HTTP 200 with a
+  populated `errors` array. The real status lives at errors[].extensions.status. Agents must
+  parse the envelope, not the transport status.
+envelope:
+  location: errors[]
+  http_note: >-
+    HTTP status is unreliable. Anonymous introspection against api.fireflies.ai/graphql was
+    observed returning HTTP 500 carrying code auth_failed; documented errors carry their real
+    status inside extensions.status.
+  fields:
+  - {name: message, type: String, required: true, description: Description of the error}
+  - {name: code, type: String, required: true, description: Machine-readable error code}
+  - {name: friendly, type: Boolean, required: true, description: 'true means the message is safe to show to an end user; false may contain technical detail'}
+  - {name: extensions, type: Object, required: false, description: 'Metadata — carries code, status, metadata, and helpUrls'}
+  - {name: extensions.status, type: Integer, description: The HTTP-equivalent status for this error}
+  - {name: extensions.metadata, type: Object, description: Per-code detail (offending fields, objectType, required tier, retryAfter)}
+  - {name: extensions.helpUrls, type: Array, description: Links to the documentation section explaining the error}
+  example:
+    data: {}
+    errors:
+    - message: Error description
+      friendly: true
+      code: error_code
+      extensions:
+        code: error_code
+        status: 400
+        helpUrls: ['https://docs.fireflies.ai/miscellaneous/error-codes#error_code']
+errors:
+- code: invalid_arguments
+  status: 400
+  message: Invalid argument(s) were provided
+  cause: Invalid arguments passed to a query or mutation.
+  metadata: 'fields[] — each with name, message and validation constraints'
+  remediation: Read extensions.metadata.fields to find the offending argument and its constraint.
+- code: args_required
+  status: 400
+  message: 'You must provide one of the following: mine, transcript_id, my_team'
+  cause: A query or mutation is missing one or more required arguments.
+  metadata: 'fields[] — the list of arguments, at least one of which is required'
+  remediation: Supply at least one of the listed arguments. Commonly hit on bites/soundbites.
+- code: payload_too_small
+  status: 400
+  message: Content size is too small. Please upload files larger than 50kb
+  cause: uploadAudio content is under the 50kb floor.
+  remediation: Upload a file larger than 50kb.
+- code: invalid_language_code
+  status: 400
+  message: Language code is invalid or not supported
+  cause: An unsupported language code was passed.
+  remediation: Use a language code from the supported list in the docs.
+- code: admin_must_exist
+  status: 400
+  message: You must have at least one admin your team
+  cause: setUserRole would leave a single-member team with no admin.
+  remediation: Promote another member before demoting the last admin.
+- code: unsupported_platform
+  status: 400
+  message: The meeting platform is not supported
+  cause: addToLiveMeeting received a meeting URL for an unsupported platform.
+  remediation: Use a supported meeting platform URL.
+- code: forbidden
+  status: 403
+  message: You are not authorized to perform this action
+  cause: The authenticated principal may not perform the action.
+  remediation: Check ownership or admin status on the target resource.
+- code: paid_required
+  status: 403
+  message: You need to be subscribed to a paid plan to perform this action
+  cause: The operation requires a paid tier.
+  metadata: 'tier — e.g. pro_or_higher'
+  remediation: Upgrade to the tier named in extensions.metadata.tier. uploadAudio requires Pro or higher.
+- code: not_in_team
+  status: 403
+  message: You do not have permissions for this team
+  cause: Querying a userId outside the caller's team.
+  remediation: Only query users within your own team.
+- code: require_elevated_privilege
+  status: 403
+  message: You do not have permission to perform this action
+  cause: Admin-only action attempted by a non-admin user.
+  remediation: Perform as a team admin, or use the Super Admin role.
+- code: account_cancelled
+  status: 403
+  message: Your account is inactive. If this is not expected, please contact support
+  cause: Account cancelled, commonly for non-payment.
+  remediation: Contact Fireflies support.
+- code: object_not_found
+  status: 404
+  message: '<Object> not found'
+  cause: The subject of the query or mutation does not exist.
+  metadata: 'objectType — e.g. User, Transcript'
+  remediation: Verify the id. extensions.metadata.objectType names the type that was missing.
+- code: request_timeout
+  status: 408
+  message: Request timed out. Please try again or contact support
+  cause: The request took too long to respond.
+  remediation: Retry with a narrower selection set; contact support if persistent.
+- code: too_many_requests
+  status: 429
+  message: 'Too many requests. Please retry after <time> (UTC)'
+  cause: Plan or per-operation rate limit exceeded.
+  metadata: 'retryAfter — epoch milliseconds when requests may resume'
+  remediation: >-
+    Back off until extensions.metadata.retryAfter. This is the ONLY rate-limit runtime signal
+    Fireflies emits — there are no X-RateLimit-* response headers. See rate-limits/.
+- code: require_ai_credits
+  status: 402
+  message: You do not have sufficient AI credits to perform this action
+  cause: Insufficient AI credits for an AskFred / AI-powered operation.
+  help_urls: ['https://app.fireflies.ai/upgrade']
+  remediation: Upgrade the plan or purchase additional AI credits.
+- code: auth_failed
+  status: 500
+  message: An error occurred while authenticating your request
+  cause: Missing or invalid Authorization bearer token.
+  remediation: >-
+    Send `Authorization: Bearer <api_key>`. Observed live against
+    https://api.fireflies.ai/graphql with no auth header, returning HTTP 500.
+  observed: true
+- code: invariant_violation
+  status: 500
+  message: Something unexpected happened. Please try again
+  cause: Internal invariant violated — a Fireflies-side bug.
+  remediation: Not client-actionable. Contact support.
+mcp_errors:
+- code: invalid_token
+  http_status: 401
+  message: Missing Authorization header
+  surface: https://api.fireflies.ai/mcp
+  note: >-
+    The MCP endpoint uses a different error envelope than GraphQL — a flat
+    {error, error_description} OAuth-style body with a real HTTP status. Observed live.
+  observed: true
+error_count: 17
+x-evidence:
+  fetched: '2026-08-14'
+  probes:
+  - {url: 'https://docs.fireflies.ai/miscellaneous/error-codes.md', http_status: 200}
+  - {url: 'https://api.fireflies.ai/graphql', http_status: 500, body: 'auth_failed'}
+  - {url: 'https://api.fireflies.ai/mcp', http_status: 401, body: 'invalid_token'}

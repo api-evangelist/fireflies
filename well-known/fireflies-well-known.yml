@@ -1,0 +1,74 @@
+generated: '2026-08-14'
+method: probed
+source: live GET of /.well-known/* on every Fireflies host in apis.yml + OpenAPI servers[]
+summary:
+  hosts_probed: 4
+  documents_found: 5
+  note: >-
+    Fireflies serves a real RFC 8414 OAuth authorization server metadata document and
+    an RFC 9728 OAuth protected resource document on BOTH api.fireflies.ai and
+    mcp.fireflies.ai — these are the discovery surface for the Fireflies MCP server.
+    docs.fireflies.ai additionally serves an A2A agent card and a published Agent Skill.
+    No security.txt, no OIDC discovery, no api-catalog and no ai-plugin.json anywhere.
+hosts:
+- host: https://api.fireflies.ai
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: fireflies-api-oauth-authorization-server.json
+    spec: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: fireflies-api-oauth-protected-resource.json
+    spec: RFC 9728
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://mcp.fireflies.ai
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: fireflies-mcp-oauth-authorization-server.json
+    spec: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: fireflies-mcp-oauth-protected-resource.json
+    spec: RFC 9728
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://docs.fireflies.ai
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: ../a2a/fireflies-agent-card.json
+    spec: A2A 1.0.0
+  - path: /.well-known/agent-skills/firefliesai/skill.md
+    status: 200
+    file: ../skills/fireflies-firefliesai-provider-skill.md
+    spec: Agent Skill
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://fireflies.ai
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+x-evidence:
+  fetched: '2026-08-14'
