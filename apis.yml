@@ -32,6 +32,17 @@ created: '2026-06-13'
 modified: '2026-08-14'
 specificationVersion: '0.23'
 tags:
+- Artificial Intelligence
+- Meeting Assistant
+- Transcription
+- Summary
+- Action Items
+- GraphQL
+- Meetings
+- Productivity
+- Collaboration
+- Conversation Intelligence
+tags_raw:
 - AI
 - Meeting Assistant
 - Transcription
@@ -49,6 +60,8 @@ apis:
   humanURL: https://docs.fireflies.ai/getting-started/introduction
   baseURL: https://api.fireflies.ai/graphql
   tags:
+  - Ai Apps
+  tags_raw:
   - AI Apps
   properties:
   - type: OpenAPI
@@ -179,6 +192,8 @@ apis:
   humanURL: https://docs.fireflies.ai/getting-started/introduction
   baseURL: https://api.fireflies.ai/graphql
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
