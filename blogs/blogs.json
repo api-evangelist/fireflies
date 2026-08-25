@@ -2,10 +2,6 @@
   "repo": "fireflies",
   "feeds": [
     {
-      "source": "https://fireflies.ai/blog/feed/",
-      "error": "HTTPError"
-    },
-    {
       "source": "https://www.linkedin.com/company/fireflies-inc/",
       "feed_url": "https://www.linkedin.com/company/fireflies-inc/",
       "title": "",
@@ -13,6 +9,6 @@
       "method": "none"
     }
   ],
-  "fetched": "2026-08-15T12:22:01Z",
+  "fetched": "2026-08-22T20:20:02Z",
   "post_count": 29
 }
