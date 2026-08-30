@@ -129,8 +129,6 @@ common:
   url: vocabulary/fireflies-vocabulary.yml
 - type: JSONLDContext
   url: json-ld/fireflies-context.jsonld
-- type: Blog
-  url: blogs/blogs.json
 - type: AgentCard
   url: a2a/fireflies-a2a.yml
 - type: MCPServer
