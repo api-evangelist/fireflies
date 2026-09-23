@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Fireflies GraphQL AI Apps Transcripts API
-  description: 'The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.
-
-    '
+  title: Fireflies GraphQL Transcripts API
+  description: The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.
   version: 1.0.0
   contact:
     name: Fireflies.ai Support
@@ -22,9 +20,7 @@ paths:
   /:
     post:
       summary: Execute a GraphQL operation
-      description: 'All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.
-
-        '
+      description: All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.
       operationId: graphqlOperation
       tags:
       - Transcripts
@@ -148,38 +144,11 @@ paths:
           description: Internal server error
 components:
   schemas:
-    GraphQLError:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        friendly:
-          type: boolean
-        extensions:
-          type: object
-          properties:
-            code:
-              type: string
-          additionalProperties: true
     GraphQLErrorResponse:
       type: object
       properties:
         errors:
           type: array
-          items:
-            $ref: '#/components/schemas/GraphQLError'
-    GraphQLResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          description: The result data returned by the GraphQL operation
-          additionalProperties: true
-        errors:
-          type: array
-          description: GraphQL errors, if any
           items:
             $ref: '#/components/schemas/GraphQLError'
     GraphQLRequest:
@@ -197,6 +166,33 @@ components:
         operationName:
           type: string
           description: Optional name of the operation to execute (for multi-operation documents)
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        friendly:
+          type: boolean
+        extensions:
+          type: object
+          properties:
+            code:
+              type: string
+          additionalProperties: true
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The result data returned by the GraphQL operation
+          additionalProperties: true
+        errors:
+          type: array
+          description: GraphQL errors, if any
+          items:
+            $ref: '#/components/schemas/GraphQLError'
   securitySchemes:
     BearerAuth:
       type: http

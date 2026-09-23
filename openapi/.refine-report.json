@@ -1,24 +1,21 @@
 {
   "provider": "fireflies",
   "sources": [
-    "fireflies-ai-apps-api-openapi.yml",
-    "fireflies-audio-upload-api-openapi.yml",
-    "fireflies-bites-api-openapi.yml",
-    "fireflies-live-meetings-api-openapi.yml",
-    "fireflies-transcripts-api-openapi.yml",
-    "fireflies-users-api-openapi.yml"
+    "_original/fireflies-graphql-api-openapi.yml"
   ],
   "outputs": [
-    "fireflies-ai-apps-api-openapi.yml",
-    "fireflies-audio-upload-api-openapi.yml",
-    "fireflies-bites-api-openapi.yml",
-    "fireflies-live-meetings-api-openapi.yml",
-    "fireflies-transcripts-api-openapi.yml",
-    "fireflies-users-api-openapi.yml"
+    "fireflies-transcripts-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "fireflies-graphql-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "fireflies-graphql-api-openapi.yml: multi-axis tagging (6 tags, 1 first tags, 6.00x duplication over 1 operations) \u2014 split on first tag, 1 operations narrowed",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "fireflies-transcripts-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
