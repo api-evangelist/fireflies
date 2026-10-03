@@ -144,6 +144,25 @@ paths:
           description: Internal server error
 components:
   schemas:
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The result data returned by the GraphQL operation
+          additionalProperties: true
+        errors:
+          type: array
+          description: GraphQL errors, if any
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphQLError'
     GraphQLRequest:
       type: object
       required:
@@ -159,18 +178,6 @@ components:
         operationName:
           type: string
           description: Optional name of the operation to execute (for multi-operation documents)
-    GraphQLResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          description: The result data returned by the GraphQL operation
-          additionalProperties: true
-        errors:
-          type: array
-          description: GraphQL errors, if any
-          items:
-            $ref: '#/components/schemas/GraphQLError'
     GraphQLError:
       type: object
       properties:
@@ -186,13 +193,6 @@ components:
             code:
               type: string
           additionalProperties: true
-    GraphQLErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/GraphQLError'
   securitySchemes:
     BearerAuth:
       type: http
