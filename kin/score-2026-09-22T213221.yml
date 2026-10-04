@@ -1,31 +1,29 @@
-# Kin Score artifact — fireflies — 2026-08-28T221322
+# Kin Score artifact — fireflies — 2026-09-22T213221
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: fireflies
-  schema_version: 0.15.1
-  scored_at: '2026-08-28'
-  run_ts: 2026-08-28T221322
-  composite: 73.2
+  schema_version: 0.22.0
+  scored_at: '2026-09-22'
+  run_ts: 2026-09-22T213221
+  composite: 70.3
   band: exemplar
   facets:
-    discoverability: 87.0
-    contract_quality: 80.7
-    governance: 55.3
+    discoverability: 75.9
+    contract_quality: 82.1
+    contract_governance: 43.2
     operational_transparency: 44.7
     developer_ergonomics: 59.5
-    commercial_clarity: 100.0
-    contract_governance: 55.3
     access_clarity: 100.0
   agent_readiness:
-    score: 61.0
+    score: 60.4
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: false
-      mcp_server: documented
+      mcp_server: verified
       auth_clarity: served
       idempotency: false
       error_semantics: documented
@@ -35,7 +33,7 @@ kin_score:
       agent_skills: true
       well_known_catalog: false
       consent_identity: false
-      agent_card: conformant
+      agent_card: false
       dry_run_mode: false
       delegated_identity: served
       protected_resource_metadata: verified
@@ -47,7 +45,7 @@ kin_score:
     agentic_access: derived
     conformance: first-party
     contracts:
-      total: 6
+      total: 1
       derived: 0
       coverage: 0.0
       callable: 100.0
