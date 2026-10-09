@@ -223,3 +223,18 @@ x-evidence:
     body: 3 tools returned with inputSchema
   - url: https://api.fireflies.ai/.well-known/oauth-protected-resource
     http_status: 200
+rfc9728:
+  endpoint: https://api.fireflies.ai/mcp
+  metadata_url: https://api.fireflies.ai/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://api.fireflies.ai/mcp
+    authorization_servers:
+    - https://api.fireflies.ai/
+    scopes_supported:
+    - profile
+    - email
+    resource_documentation: https://docs.fireflies.ai/
