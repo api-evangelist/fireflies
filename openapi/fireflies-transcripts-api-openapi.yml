@@ -144,28 +144,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    GraphQLError:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        friendly:
-          type: boolean
-        extensions:
-          type: object
-          properties:
-            code:
-              type: string
-          additionalProperties: true
-    GraphQLErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/GraphQLError'
     GraphQLRequest:
       type: object
       required:
@@ -181,6 +159,21 @@ components:
         operationName:
           type: string
           description: Optional name of the operation to execute (for multi-operation documents)
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        friendly:
+          type: boolean
+        extensions:
+          type: object
+          properties:
+            code:
+              type: string
+          additionalProperties: true
     GraphQLResponse:
       type: object
       properties:
@@ -191,6 +184,13 @@ components:
         errors:
           type: array
           description: GraphQL errors, if any
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
           items:
             $ref: '#/components/schemas/GraphQLError'
   securitySchemes:
