@@ -119,7 +119,7 @@
     - connectors/applications/fireflies
     vendor_link: https://fireflies.ai/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: fireflies-microsoft-teams-own
   label: Microsoft Teams (own)
