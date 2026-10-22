@@ -282,6 +282,23 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: CALLING
+- partner_name: Pipedrive (own)
+  partner: pipedrive
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.pipedrive.com/en/marketplace/app/fireflies-ai-recording-transcription/4ab9e5f57e197843
+  mirror_of: pipedrive/integrations/pipedrive-integration-edges.yml
+  apps:
+  - Fireflies.ai - Recording & Transcription
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Communicate with leads
 generated: '2026-10-14'
 method: searched
 checked:
@@ -307,5 +324,6 @@ checked:
 - https://ecosystem.hubspot.com/marketplace/explore?eco_PRODUCT_TYPE=APP&eco_CERTIFIED=true
 - https://ecosystem.hubspot.com/marketplace/solutions
 - hubspot/integrations/hubspot-integration-edges.yml
+- pipedrive/integrations/pipedrive-integration-edges.yml
 source:
 - https://a2aregistry.org/api/agents
