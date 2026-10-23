@@ -99,6 +99,8 @@ apis:
   - type: GraphQL
     url: graphql/fireflies-graphql.md
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/firefliesai/overview
 - type: AgenticAccess
   url: agentic-access/fireflies-agentic-access.yml
 - type: TrustCenter
