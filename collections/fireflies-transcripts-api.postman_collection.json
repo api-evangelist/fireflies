@@ -1,32 +1,26 @@
 {
+  "info": {
+    "_postman_id": "f116ec2b-b856-4500-a85c-def0ae241610",
+    "name": "Fireflies GraphQL Transcripts API",
+    "description": "The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.\n\nContact Support:\n Name: Fireflies.ai Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T01:18:15.000Z",
+    "updatedAt": "2026-10-22T01:18:16.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f116ec2b-b856-4500-a85c-def0ae241610"
+  },
   "item": [
     {
-      "id": "5c0937b0-c559-4ea4-b658-c0f2a971fb43",
-      "name": "Transcripts",
-      "description": {
-        "content": "Retrieve and manage meeting transcripts and their content",
-        "type": "text/plain"
-      },
+      "name": "/",
       "item": [
         {
-          "id": "7bc7a813-7bac-4074-81d5-0a2a45be8e5e",
           "name": "Execute a GraphQL operation",
+          "id": "d3095413-08fb-4a7c-9884-2dd122ae062a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
-            "name": "Execute a GraphQL operation",
-            "description": {
-              "content": "All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations.\n",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                ""
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -37,231 +31,244 @@
                 "value": "application/json"
               }
             ],
-            "method": "POST",
-            "auth": null,
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false\n  },\n  \"operationName\": \"<string>\"\n}",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"dolor0\": \"deserunt labore esse Ut\"\n  },\n  \"operationName\": \"<string>\"\n}",
               "options": {
                 "raw": {
+                  "headerFamily": "json",
                   "language": "json"
                 }
               }
-            }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "All Fireflies API operations are performed via GraphQL POST requests to this single endpoint. The body must contain a `query` string (GraphQL query or mutation) and optionally a `variables` object. See the Fireflies documentation for the full schema of available queries and mutations."
           },
           "response": [
             {
-              "id": "af71311c-0257-41dc-a2ed-d76f1807042c",
+              "id": "169f1a61-5ef5-4bf3-8afe-c16906af5797",
               "name": "GraphQL response (errors may still be present in the response body)",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    ""
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "key": "Content-Type",
+                    "value": "application/json"
                   },
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
                   }
                 ],
-                "method": "POST",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"dolor0\": \"deserunt labore esse Ut\"\n  },\n  \"operationName\": \"<string>\"\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
                 }
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"key_0\": false,\n    \"key_1\": true,\n    \"key_2\": 834\n  },\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"code\": \"string\",\n      \"friendly\": true,\n      \"extensions\": {\n        \"code\": \"string\",\n        \"key_0\": 5711,\n        \"key_1\": true\n      }\n    },\n    {\n      \"message\": \"string\",\n      \"code\": \"string\",\n      \"friendly\": false,\n      \"extensions\": {\n        \"code\": \"string\",\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"laboris_5\": false\n  },\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"code\": \"<string>\",\n      \"friendly\": \"<boolean>\",\n      \"extensions\": {\n        \"code\": \"<string>\",\n        \"tempor9b\": 18060836.64882143,\n        \"ut_87_\": true\n      }\n    },\n    {\n      \"message\": \"<string>\",\n      \"code\": \"<string>\",\n      \"friendly\": \"<boolean>\",\n      \"extensions\": {\n        \"code\": \"<string>\",\n        \"culpa03a\": -81851729,\n        \"veniam_65\": 24224510.54405248,\n        \"Lorem_3\": -9504421\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T01:18:16.000Z",
+              "updatedAt": "2026-10-22T01:18:16.000Z",
+              "uid": "35240-169f1a61-5ef5-4bf3-8afe-c16906af5797"
             },
             {
-              "id": "91792f73-b89e-4ecf-b07f-193a6fc0340e",
-              "name": "Authentication failed — invalid or missing API key",
+              "id": "b6cc1699-7513-4939-b47f-0d73244a4271",
+              "name": "Authentication failed \u2014 invalid or missing API key",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    ""
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "Bearer <token>"
+                    "key": "Content-Type",
+                    "value": "application/json"
                   },
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
                   }
                 ],
-                "method": "POST",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"dolor0\": \"deserunt labore esse Ut\"\n  },\n  \"operationName\": \"<string>\"\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
                 }
               },
               "status": "Unauthorized",
               "code": 401,
+              "_postman_previewlanguage": "json",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"errors\": [\n    {\n      \"friendly\": true,\n      \"code\": \"auth_failed\",\n      \"message\": \"An error occurred while authenticating your request. Please recheck your API key and try again.\",\n      \"extensions\": {\n        \"code\": \"auth_failed\"\n      }\n    }\n  ]\n}",
               "cookie": [],
-              "_postman_previewlanguage": "json"
+              "responseTime": null,
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"code\": \"<string>\",\n      \"friendly\": \"<boolean>\",\n      \"extensions\": {\n        \"code\": \"<string>\",\n        \"adipisicingd3\": -71305168.36670649\n      }\n    },\n    {\n      \"message\": \"<string>\",\n      \"code\": \"<string>\",\n      \"friendly\": \"<boolean>\",\n      \"extensions\": {\n        \"code\": \"<string>\",\n        \"consequat8fc\": 46927683.84017855\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-10-22T01:18:16.000Z",
+              "updatedAt": "2026-10-22T01:18:16.000Z",
+              "uid": "35240-b6cc1699-7513-4939-b47f-0d73244a4271"
             },
             {
-              "id": "99e1af18-a481-4933-bd9f-c33ea2bda7c5",
+              "id": "2a94f998-985e-425f-833b-3134dcf49238",
               "name": "Rate limit exceeded",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    ""
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
                     "key": "Authorization",
                     "value": "Bearer <token>"
                   }
                 ],
-                "method": "POST",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"dolor0\": \"deserunt labore esse Ut\"\n  },\n  \"operationName\": \"<string>\"\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
                 }
               },
               "status": "Too Many Requests",
               "code": 429,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
+              "_postman_previewlanguage": "text",
+              "header": [],
               "cookie": [],
-              "_postman_previewlanguage": "text"
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T01:18:16.000Z",
+              "updatedAt": "2026-10-22T01:18:16.000Z",
+              "uid": "35240-2a94f998-985e-425f-833b-3134dcf49238"
             },
             {
-              "id": "ba623fd0-4f78-4da7-944a-9beeda7072ec",
+              "id": "9f775851-a59f-4fad-a317-9a28b371fd75",
               "name": "Internal server error",
               "originalRequest": {
-                "url": {
-                  "path": [
-                    ""
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
+                "method": "POST",
                 "header": [
                   {
-                    "description": {
-                      "content": "Added as a part of security scheme: bearer",
-                      "type": "text/plain"
-                    },
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
                     "key": "Authorization",
                     "value": "Bearer <token>"
                   }
                 ],
-                "method": "POST",
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"query\": \"query Transcript($id: String!) {\\n  transcript(id: $id) {\\n    id\\n    title\\n    date\\n    duration\\n    host_email\\n    organizer_email\\n    participants\\n    transcript_url\\n    audio_url\\n    video_url\\n    summary {\\n      overview\\n      action_items\\n      keywords\\n      gist\\n      short_summary\\n      meeting_type\\n      topics_discussed\\n    }\\n    sentences {\\n      index\\n      speaker_name\\n      text\\n      start_time\\n      end_time\\n    }\\n  }\\n}\\n\",\n  \"variables\": {\n    \"id\": \"transcript-id-here\"\n  }\n}",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"dolor0\": \"deserunt labore esse Ut\"\n  },\n  \"operationName\": \"<string>\"\n}",
                   "options": {
                     "raw": {
+                      "headerFamily": "json",
                       "language": "json"
                     }
                   }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
                 }
               },
               "status": "Internal Server Error",
               "code": 500,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
+              "_postman_previewlanguage": "text",
+              "header": [],
               "cookie": [],
-              "_postman_previewlanguage": "text"
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-10-22T01:18:16.000Z",
+              "updatedAt": "2026-10-22T01:18:16.000Z",
+              "uid": "35240-9f775851-a59f-4fad-a317-9a28b371fd75"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "createdAt": "2026-10-22T01:18:16.000Z",
+          "updatedAt": "2026-10-22T01:18:16.000Z",
+          "uid": "35240-d3095413-08fb-4a7c-9884-2dd122ae062a"
         }
       ],
-      "event": []
-    }
-  ],
-  "event": [],
-  "variable": [
-    {
-      "type": "string",
-      "value": "https://api.fireflies.ai/graphql",
-      "key": "baseUrl"
+      "id": "99d92915-7534-4b63-9107-5fa110afda45",
+      "createdAt": "2026-10-22T01:18:16.000Z",
+      "updatedAt": "2026-10-22T01:18:16.000Z",
+      "uid": "35240-99d92915-7534-4b63-9107-5fa110afda45"
     }
   ],
   "auth": {
@@ -269,17 +276,15 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{bearerToken}}"
+        "value": "{{bearerToken}}",
+        "type": "string"
       }
     ]
   },
-  "info": {
-    "_postman_id": "ef8a2369-5852-4330-85d9-1f8f9babd912",
-    "name": "Fireflies GraphQL AI Apps Transcripts API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "The Fireflies GraphQL API provides a single HTTP endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics. Developers can retrieve transcripts, manage live meetings, work with AskFred AI threads, handle bites (meeting clips), and access audit event logs via strongly-typed GraphQL queries and mutations. Authentication uses a Bearer API key passed in the Authorization header.\n\n\nContact Support:\n Name: Fireflies.ai Support",
-      "type": "text/plain"
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.fireflies.ai/graphql"
     }
-  }
+  ]
 }
