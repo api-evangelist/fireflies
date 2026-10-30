@@ -1,4 +1,4 @@
-# Fireflies.ai (fireflies)
+# Fireflies.ai
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,56 +66,202 @@
 
 Fireflies.ai is an AI meeting assistant that automatically joins video calls, records, transcribes, and summarizes meetings across platforms such as Zoom, Google Meet, and Microsoft Teams. The platform provides a GraphQL API giving developers structured access to call recordings, transcripts, summaries, action items, speaker analytics, and meeting intelligence. Teams can retrieve and search transcript data, manage meetings programmatically, and integrate meeting context into CRM, project management, and workflow automation tools. Advanced features include AskFred AI for natural language queries against meeting content, real-time transcription via a live API, webhooks for event-driven integrations, and an MCP server for connecting AI tooling directly to meeting data.
 
-- **APIs.json**: https://raw.githubusercontent.com/api-evangelist/fireflies/refs/heads/main/apis.yml
-- **Naftiko**: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=fireflies-api-evangelist&utm_content=repo
+**Areas:** Artificial Intelligence · Meeting Assistant · Transcription · Summary · Action Items · GraphQL · Meetings · Productivity · Collaboration · Conversation Intelligence · A2A
 
-## Tags
+## Fireflies.ai on APIs.io
 
-AI, Meeting Assistant, Transcription, Summaries, Action Items, GraphQL, Meetings, Productivity, Collaboration, Conversation Intelligence
+Everything profiled for Fireflies.ai is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/fireflies/](https://apis.io/providers/fireflies/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (1)
 
-| API | Description | Base URL |
-|-----|-------------|----------|
-| Fireflies GraphQL API | Single GraphQL endpoint for querying and mutating all meeting data including transcripts, summaries, action items, speakers, and analytics | https://api.fireflies.ai/graphql |
+- [Fireflies.ai Transcripts API](https://apis.io/apis/fireflies/fireflies-transcripts-api/) — Retrieve and manage meeting transcripts and their content
 
-## Plans / Rate Limits / FinOps
+### Published properties
 
-| Resource | Location |
-|----------|----------|
-| Plans & Pricing | [plans/fireflies-plans-pricing.yml](plans/fireflies-plans-pricing.yml) |
-| Rate Limits | [rate-limits/fireflies-rate-limits.yml](rate-limits/fireflies-rate-limits.yml) |
-| FinOps Framework | [finops/fireflies-finops.yml](finops/fireflies-finops.yml) |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**Plan summary:**
+#### AsyncAPI (1)
 
-| Plan | Monthly | Annual | API Rate Limit |
-|------|---------|--------|----------------|
-| Free | $0 | $0 | 50 req/day |
-| Pro | $18 | $10/seat/mo | 500 req/day |
-| Business | $29 | $19/seat/mo | 60 req/min |
-| Enterprise | $39 | $39/seat/mo | 60 req/min |
+Event-driven and webhook contracts.
 
-Overages for transcription minutes are billed at $0.01 per extra minute.
+- [Fireflies Webhooks](https://apis.io/asyncapis/fireflies/fireflies-webhooks/)
 
-## Timestamps
+#### GraphQL (1)
 
-- **Created**: 2026-06-13
-- **Modified**: 2026-06-13
+GraphQL schemas.
 
-## Common
+- [Fireflies.ai GraphQL API](https://apis.io/graphqls/fireflies/fireflies-graphql/)
 
-| Type | URL |
-|------|-----|
-| Website | https://fireflies.ai |
-| Documentation | https://docs.fireflies.ai |
-| GitHub Org | https://github.com/firefliesai |
-| LinkedIn | https://www.linkedin.com/company/fireflies-inc/ |
-| Blog | https://fireflies.ai/blog |
-| Pricing | https://fireflies.ai/pricing |
-| Status Page | https://status.fireflies.ai/ |
-| X (Twitter) | https://twitter.com/firefliesai |
+#### MCP servers (1)
 
-## Maintainers
+Model Context Protocol servers that expose the API to agents.
 
-- **Kin Lane** — kin@apievangelist.com
+- [fireflies](https://apis.io/servers/fireflies/fireflies/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Fireflies Agentic Access](https://apis.io/agentic-access/fireflies/fireflies-agentic-access/)
+
+#### JSON Schema (1)
+
+The data models the API reads and writes.
+
+- [FirefliesTranscript](https://apis.io/schemas/fireflies/fireflies-transcript/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Fireflies Context](https://apis.io/jsonld/fireflies/fireflies-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Fireflies Vocabulary](https://apis.io/vocabularies/fireflies/fireflies-vocabulary/)
+
+#### Examples (2)
+
+Example requests and responses.
+
+- [Fireflies Get Transcript Example](https://apis.io/examples/fireflies/fireflies-get-transcript-example/)
+- [Fireflies Upload Audio Example](https://apis.io/examples/fireflies/fireflies-upload-audio-example/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [Fireflies GraphQL AI Apps API](https://apis.io/collections/fireflies/open-fireflies-ai-apps-api/)
+- [Fireflies GraphQL AI Apps Audio Upload API](https://apis.io/collections/fireflies/open-fireflies-audio-upload-api/)
+- [Fireflies GraphQL AI Apps Bites API](https://apis.io/collections/fireflies/open-fireflies-bites-api/)
+- [Fireflies GraphQL AI Apps Live Meetings API](https://apis.io/collections/fireflies/open-fireflies-live-meetings-api/)
+- [Fireflies GraphQL AI Apps Transcripts API](https://apis.io/collections/fireflies/open-fireflies-transcripts-api/)
+- [Fireflies GraphQL AI Apps Users API](https://apis.io/collections/fireflies/open-fireflies-users-api/)
+
+#### Overlays (7)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Fireflies Ai Apps Api Overlay](https://apis.io/overlays/fireflies/fireflies-ai-apps-api-overlay/)
+- [Fireflies Audio Upload Api Overlay](https://apis.io/overlays/fireflies/fireflies-audio-upload-api-overlay/)
+- [Fireflies Bites Api Overlay](https://apis.io/overlays/fireflies/fireflies-bites-api-overlay/)
+- [Fireflies Live Meetings Api Overlay](https://apis.io/overlays/fireflies/fireflies-live-meetings-api-overlay/)
+- [Fireflies Transcripts Api Overlay](https://apis.io/overlays/fireflies/fireflies-transcripts-api-overlay/)
+- [Fireflies Transcripts Api Phrasing Overlay](https://apis.io/overlays/fireflies/fireflies-transcripts-api-phrasing-overlay/)
+- [Fireflies Users Api Overlay](https://apis.io/overlays/fireflies/fireflies-users-api-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Fireflies.ai — jsonschema rules](https://apis.io/rules/fireflies/fireflies-jsonschema-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Fireflies Authentication](https://apis.io/security/fireflies/fireflies-authentication/)
+- [Fireflies Domain Security](https://apis.io/security/fireflies/fireflies-domain-security/)
+- [Fireflies Trust Center](https://apis.io/security/fireflies/fireflies-trust-center/)
+- [Fireflies Vulnerability Disclosure](https://apis.io/security/fireflies/fireflies-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Fireflies Scopes](https://apis.io/scopes/fireflies/fireflies-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Fireflies Plans Pricing](https://apis.io/plans/fireflies/fireflies-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Fireflies Rate Limits](https://apis.io/rate-limits/fireflies/fireflies-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Fireflies Finops](https://apis.io/finops/fireflies/fireflies-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://fireflies.ai)
+- [Documentation](https://docs.fireflies.ai)
+- [Getting started](https://docs.fireflies.ai/getting-started/introduction)
+- [API reference](https://docs.fireflies.ai/graphql-api/query/transcripts)
+- [Pricing](https://fireflies.ai/pricing)
+- [Sign up](https://app.fireflies.ai/login)
+- [Support](https://guide.fireflies.ai/hc/en-us)
+- [Changelog](https://docs.fireflies.ai/getting-started/whats-new)
+- [Blog](https://fireflies.ai/blog)
+- [Security](https://fireflies.ai/bug-bounty)
+- [Compliance](https://trust.fireflies.ai/)
+- [Terms of service](https://fireflies.ai/terms-of-service)
+- [Privacy policy](https://fireflies.ai/privacy-policy)
+- [GitHub](https://github.com/firefliesai)
+- [Status](https://status.fireflies.ai/)
+
+## API Evangelist rating
+
+**Kin Score 71.1** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 76.7 |
+| Contract governance | 41.7 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 59.5 |
+| Access clarity | 92.1 |
+
+**Agent readiness 60.4** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 41.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/fireflies/](https://apis.io/providers/fireflies/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Fireflies.ai: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/fireflies/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
